@@ -14,6 +14,10 @@
 		EB93B88E2C208F120004478F /* CifrasYLetrasTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB93B88D2C208F120004478F /* CifrasYLetrasTests.swift */; };
 		EB93B8982C208F120004478F /* CifrasYLetrasUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB93B8972C208F120004478F /* CifrasYLetrasUITests.swift */; };
 		EB93B89A2C208F120004478F /* CifrasYLetrasUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB93B8992C208F120004478F /* CifrasYLetrasUITestsLaunchTests.swift */; };
+		EB93B8A82C20914C0004478F /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB93B8A72C20914C0004478F /* GameModel.swift */; };
+		EB93B8AB2C2091A00004478F /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB93B8AA2C2091A00004478F /* GameViewModel.swift */; };
+		EB93B8AE2C2092B00004478F /* LettersGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB93B8AD2C2092B00004478F /* LettersGameView.swift */; };
+		EB93B8B02C2093310004478F /* NumbersGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB93B8AF2C2093310004478F /* NumbersGameView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +48,10 @@
 		EB93B8932C208F120004478F /* CifrasYLetrasUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CifrasYLetrasUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB93B8972C208F120004478F /* CifrasYLetrasUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CifrasYLetrasUITests.swift; sourceTree = "<group>"; };
 		EB93B8992C208F120004478F /* CifrasYLetrasUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CifrasYLetrasUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		EB93B8A72C20914C0004478F /* GameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModel.swift; sourceTree = "<group>"; };
+		EB93B8AA2C2091A00004478F /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
+		EB93B8AD2C2092B00004478F /* LettersGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LettersGameView.swift; sourceTree = "<group>"; };
+		EB93B8AF2C2093310004478F /* NumbersGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumbersGameView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,8 +102,10 @@
 		EB93B87B2C208F110004478F /* CifrasYLetras */ = {
 			isa = PBXGroup;
 			children = (
+				EB93B8AC2C20921F0004478F /* Views */,
+				EB93B8A92C20916B0004478F /* ViewModels */,
+				EB93B8A62C2090EA0004478F /* Models */,
 				EB93B87C2C208F110004478F /* CifrasYLetrasApp.swift */,
-				EB93B87E2C208F110004478F /* ContentView.swift */,
 				EB93B8802C208F120004478F /* Assets.xcassets */,
 				EB93B8822C208F120004478F /* Preview Content */,
 			);
@@ -125,6 +135,32 @@
 				EB93B8992C208F120004478F /* CifrasYLetrasUITestsLaunchTests.swift */,
 			);
 			path = CifrasYLetrasUITests;
+			sourceTree = "<group>";
+		};
+		EB93B8A62C2090EA0004478F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				EB93B8A72C20914C0004478F /* GameModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		EB93B8A92C20916B0004478F /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				EB93B8AA2C2091A00004478F /* GameViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		EB93B8AC2C20921F0004478F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				EB93B87E2C208F110004478F /* ContentView.swift */,
+				EB93B8AD2C2092B00004478F /* LettersGameView.swift */,
+				EB93B8AF2C2093310004478F /* NumbersGameView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -257,8 +293,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EB93B8AB2C2091A00004478F /* GameViewModel.swift in Sources */,
 				EB93B87F2C208F110004478F /* ContentView.swift in Sources */,
+				EB93B8AE2C2092B00004478F /* LettersGameView.swift in Sources */,
 				EB93B87D2C208F110004478F /* CifrasYLetrasApp.swift in Sources */,
+				EB93B8A82C20914C0004478F /* GameModel.swift in Sources */,
+				EB93B8B02C2093310004478F /* NumbersGameView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
