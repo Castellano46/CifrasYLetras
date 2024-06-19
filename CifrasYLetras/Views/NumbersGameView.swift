@@ -47,10 +47,7 @@ struct NumbersGameView: View {
 
 struct NumbersGameView_Previews: PreviewProvider {
     static var previews: some View {
-        NumbersGameView(viewModel: GameViewModel(game: GameModel(
-            letters: ["A", "B", "C", "D", "E", "F", "G"],
-            targetNumber: 100,
-            availableNumbers: [1, 2, 3, 4, 5, 6]
-        )))
+        NumbersGameView(viewModel: GameViewModel(game: GameModel()))
     }
 }
+

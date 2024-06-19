@@ -17,7 +17,25 @@ struct LettersGameView: View {
                 .padding()
             
             HStack {
-                ForEach(viewModel.letters, id: \.self) { letter in
+                Button(action: viewModel.selectVowel) {
+                    Text("Vocal")
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
+                }
+                Button(action: viewModel.selectConsonant) {
+                    Text("Consonante")
+                        .padding()
+                        .background(Color.green)
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
+                }
+            }
+            .padding()
+            
+            HStack {
+                ForEach(viewModel.selectedLetters, id: \.self) { letter in
                     Text(letter)
                         .font(.largeTitle)
                         .padding()
@@ -27,32 +45,43 @@ struct LettersGameView: View {
             }
             .padding()
             
+            Text("Tiempo restante: \(viewModel.timerValue) segundos")
+                .font(.title)
+                .padding()
+            
             TextField("Tu palabra", text: $viewModel.userWord)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding()
+                .disabled(!viewModel.isTimerActive)
             
-            Button(action: {
-                let isValid = viewModel.checkWord()
-                // Acción según la validación
-            }) {
-                Text("Comprobar palabra")
-                    .padding()
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(8)
+            if !viewModel.isTimerActive && viewModel.selectedLetters.count == 10 {
+                Button(action: viewModel.startTimer) {
+                    Text("Empezar")
+                        .padding()
+                        .background(Color.orange)
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
+                }
+                .padding()
             }
-            .padding()
+            
+            if viewModel.isTimerActive {
+                Button(action: viewModel.stopTimer) {
+                    Text("Detener")
+                        .padding()
+                        .background(Color.red)
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
+                }
+                .padding()
+            }
         }
     }
 }
 
 struct LettersGameView_Previews: PreviewProvider {
     static var previews: some View {
-        LettersGameView(viewModel: GameViewModel(game: GameModel(
-            letters: ["A", "B", "C", "D", "E", "F", "G"],
-            targetNumber: 100,
-            availableNumbers: [1, 2, 3, 4, 5, 6]
-        )))
+        LettersGameView(viewModel: GameViewModel(game: GameModel()))
     }
 }
 

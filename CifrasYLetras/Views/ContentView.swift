@@ -8,11 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject private var viewModel = GameViewModel(game: GameModel(
-        letters: ["A", "B", "C", "D", "E", "F", "G"],
-        targetNumber: 100,
-        availableNumbers: [1, 2, 3, 4, 5, 6]
-    ))
+    @StateObject private var viewModel = GameViewModel(game: GameModel())
     
     var body: some View {
         NavigationView {
@@ -31,4 +27,3 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
-
