@@ -13,9 +13,11 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             VStack {
-                LettersGameView(viewModel: viewModel)
-                Divider()
-                NumbersGameView(viewModel: viewModel)
+                if viewModel.currentPhase == .letters {
+                    LettersGameView(viewModel: viewModel)
+                } else {
+                    NumbersGameView(viewModel: viewModel)
+                }
             }
             .navigationTitle("Cifras y Letras")
         }

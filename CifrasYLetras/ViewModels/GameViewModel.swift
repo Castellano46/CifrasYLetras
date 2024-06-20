@@ -8,18 +8,28 @@
 import Foundation
 import SwiftUI
 
+enum GamePhase {
+    case letters
+    case numbers
+}
+
 class GameViewModel: ObservableObject {
-    // Juego de Letras
+    // Juego Letras
     @Published var selectedLetters: [String] = []
     @Published var userWord: String = ""
     @Published var timerValue: Int = 60
     @Published var isTimerActive: Bool = false
+    @Published var score: Int = 0
     
-    // Juego de Números
+    // Juego Cifras
     @Published var selectedNumbers: [Int] = []
     @Published var targetNumber: Int = 0
     @Published var availableNumbers: [Int] = []
     @Published var userSolution: [Int] = []
+    
+    // Estado del juego
+    @Published var currentPhase: GamePhase = .letters
+    @Published var roundsCompleted: Int = 0
     
     private var game: GameModel
     private var timer: Timer?
@@ -28,7 +38,7 @@ class GameViewModel: ObservableObject {
         self.game = game
     }
     
-    // Juego de letras
+    // Métodos para Letras
     func selectVowel() {
         if selectedLetters.count < 10 {
             if let randomVowel = game.vowels.randomElement() {
@@ -54,6 +64,7 @@ class GameViewModel: ObservableObject {
             } else {
                 self.stopTimer()
                 self.calculateScore()
+                self.advanceToNextPhase()
             }
         }
     }
@@ -69,16 +80,53 @@ class GameViewModel: ObservableObject {
         userWord = ""
         timerValue = 60
         isTimerActive = false
+        roundsCompleted = 0
+        score = 0
+        currentPhase = .letters
         timer?.invalidate()
         timer = nil
     }
     
     private func calculateScore() {
-        let score = userWord.count
-        print("Puntuación: \(score)")
+        let isValid = isValidWord(word: userWord)
+        if isValid {
+            score += userWord.count
+        }
     }
     
-    // MJuego de Cifras
+    private func isValidWord(word: String) -> Bool {
+        var lettersCopy = selectedLetters
+        for char in word {
+            if let index = lettersCopy.firstIndex(of: String(char).uppercased()) {
+                lettersCopy.remove(at: index)
+            } else {
+                return false
+            }
+        }
+        return true
+    }
+    
+    func advanceToNextPhase() {
+        if currentPhase == .letters {
+            roundsCompleted += 1
+            if roundsCompleted % 2 == 0 {
+                currentPhase = .numbers
+            } else {
+                resetLettersRound()
+            }
+        } else {
+            currentPhase = .letters
+        }
+    }
+    
+    private func resetLettersRound() {
+        selectedLetters = []
+        userWord = ""
+        timerValue = 60
+        isTimerActive = false
+    }
+    
+    // Métodos para Cifras
     func selectSmallNumber() {
         if selectedNumbers.count < 6 {
             if let randomSmallNumber = game.smallNumbers.randomElement() {

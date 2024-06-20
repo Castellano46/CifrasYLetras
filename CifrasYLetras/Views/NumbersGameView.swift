@@ -41,6 +41,15 @@ struct NumbersGameView: View {
                     .cornerRadius(8)
             }
             .padding()
+            
+            Button(action: viewModel.advanceToNextPhase) {
+                Text("Siguiente")
+                    .padding()
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(8)
+            }
+            .padding()
         }
     }
 }
@@ -50,4 +59,3 @@ struct NumbersGameView_Previews: PreviewProvider {
         NumbersGameView(viewModel: GameViewModel(game: GameModel()))
     }
 }
-

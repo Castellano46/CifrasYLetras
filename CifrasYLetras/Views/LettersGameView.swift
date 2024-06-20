@@ -34,13 +34,24 @@ struct LettersGameView: View {
             }
             .padding()
             
-            HStack {
-                ForEach(viewModel.selectedLetters, id: \.self) { letter in
-                    Text(letter)
-                        .font(.largeTitle)
-                        .padding()
-                        .background(Color.gray.opacity(0.3))
-                        .cornerRadius(8)
+            ForEach(0..<2) { row in
+                HStack {
+                    ForEach(0..<5) { col in
+                        let index = row * 5 + col
+                        if index < viewModel.selectedLetters.count {
+                            Text(viewModel.selectedLetters[index])
+                                .font(.largeTitle)
+                                .padding()
+                                .background(Color.gray.opacity(0.3))
+                                .cornerRadius(8)
+                        } else {
+                            Text(" ")
+                                .font(.largeTitle)
+                                .padding()
+                                .background(Color.gray.opacity(0.3))
+                                .cornerRadius(8)
+                        }
+                    }
                 }
             }
             .padding()
@@ -75,6 +86,10 @@ struct LettersGameView: View {
                 }
                 .padding()
             }
+            
+            Text("Puntuación: \(viewModel.score)")
+                .font(.title)
+                .padding()
         }
     }
 }
@@ -84,4 +99,3 @@ struct LettersGameView_Previews: PreviewProvider {
         LettersGameView(viewModel: GameViewModel(game: GameModel()))
     }
 }
-
