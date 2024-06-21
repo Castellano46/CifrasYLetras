@@ -19,6 +19,7 @@ class GameViewModel: ObservableObject {
     @Published var userWord: String = ""
     @Published var timerValue: Int = 60
     @Published var isTimerActive: Bool = false
+    @Published var isPaused: Bool = false
     @Published var score: Int = 0
     
     // Juego Cifras
@@ -45,6 +46,9 @@ class GameViewModel: ObservableObject {
                 selectedLetters.append(randomVowel)
             }
         }
+        if selectedLetters.count == 10 {
+            startTimer()
+        }
     }
     
     func selectConsonant() {
@@ -53,10 +57,14 @@ class GameViewModel: ObservableObject {
                 selectedLetters.append(randomConsonant)
             }
         }
+        if selectedLetters.count == 10 {
+            startTimer()
+        }
     }
     
     func startTimer() {
         isTimerActive = true
+        isPaused = false
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
             guard let self = self else { return }
             if self.timerValue > 0 {
@@ -71,8 +79,31 @@ class GameViewModel: ObservableObject {
     
     func stopTimer() {
         isTimerActive = false
+        isPaused = false
         timer?.invalidate()
         timer = nil
+    }
+    
+    func pauseTimer() {
+        isTimerActive = false
+        isPaused = true
+        timer?.invalidate()
+        timer = nil
+    }
+    
+    func resumeTimer() {
+        isTimerActive = true
+        isPaused = false
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+            guard let self = self else { return }
+            if self.timerValue > 0 {
+                self.timerValue -= 1
+            } else {
+                self.stopTimer()
+                self.calculateScore()
+                self.advanceToNextPhase()
+            }
+        }
     }
     
     func resetGame() {
@@ -80,6 +111,7 @@ class GameViewModel: ObservableObject {
         userWord = ""
         timerValue = 60
         isTimerActive = false
+        isPaused = false
         roundsCompleted = 0
         score = 0
         currentPhase = .letters
@@ -124,6 +156,7 @@ class GameViewModel: ObservableObject {
         userWord = ""
         timerValue = 60
         isTimerActive = false
+        isPaused = false
     }
     
     // Métodos para Cifras
