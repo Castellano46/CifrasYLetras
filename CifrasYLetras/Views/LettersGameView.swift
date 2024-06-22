@@ -20,7 +20,7 @@ struct LettersGameView: View {
                 Button(action: viewModel.selectVowel) {
                     Text("Vocal")
                         .frame(maxWidth: .infinity, minHeight: 50)
-                        .background(Color.purple)
+                        .background(Color.blue)
                         .foregroundColor(.white)
                         .cornerRadius(8)
                 }
@@ -29,7 +29,7 @@ struct LettersGameView: View {
                 Button(action: viewModel.selectConsonant) {
                     Text("Consonante")
                         .frame(maxWidth: .infinity, minHeight: 50)
-                        .background(Color.cyan)
+                        .background(Color.green)
                         .foregroundColor(.white)
                         .cornerRadius(8)
                 }

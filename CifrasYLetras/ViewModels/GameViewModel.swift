@@ -14,7 +14,7 @@ enum GamePhase {
 }
 
 class GameViewModel: ObservableObject {
-    // Juego Letras
+    // Juego de Letras
     @Published var selectedLetters: [String] = []
     @Published var userWord: String = ""
     @Published var timerValue: Int = 60
@@ -22,9 +22,12 @@ class GameViewModel: ObservableObject {
     @Published var isPaused: Bool = false
     @Published var score: Int = 0
     
-    // Juego Cifras
+    // Juego de Cifras
     @Published var selectedNumbers: [Int] = []
     @Published var targetNumber: Int = 0
+    @Published var targetUnits: Int = 0
+    @Published var targetTens: Int = 0
+    @Published var targetHundreds: Int = 0
     @Published var availableNumbers: [Int] = []
     @Published var userSolution: [Int] = []
     
@@ -160,32 +163,54 @@ class GameViewModel: ObservableObject {
     }
     
     // Métodos para Cifras
-    func selectSmallNumber() {
+    func selectNumber() {
         if selectedNumbers.count < 6 {
-            if let randomSmallNumber = game.smallNumbers.randomElement() {
-                selectedNumbers.append(randomSmallNumber)
-            }
+            let allNumbers = Array(1...10) + [25, 50, 75, 100]
+            var number: Int
+            
+            repeat {
+                number = allNumbers.randomElement()!
+            } while selectedNumbers.contains(number) || (number > 10 && selectedNumbers.filter { $0 > 10 }.count >= 2)
+            
+            selectedNumbers.append(number)
         }
-    }
-    
-    func selectLargeNumber() {
-        if selectedNumbers.count < 6 {
-            if let randomLargeNumber = game.largeNumbers.randomElement() {
-                selectedNumbers.append(randomLargeNumber)
-            }
+        if selectedNumbers.count == 6 {
+            generateTargetNumber()
+            animateTargetNumber()
+            startTimer()
         }
     }
     
     func generateTargetNumber() {
-        targetNumber = Int.random(in: game.targetNumberRange)
+        targetNumber = Int.random(in: 100...999)
     }
     
-    func startNumbersGame() {
-        availableNumbers = selectedNumbers
-        generateTargetNumber()
+    func animateTargetNumber() {
+        let hundreds = targetNumber / 100
+        let tens = (targetNumber % 100) / 10
+        let units = targetNumber % 10
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.targetHundreds = hundreds
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.targetTens = tens
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            self.targetUnits = units
+        }
     }
     
     func checkSolution() -> Bool {
+        // Lógica para verificar la solución numérica
         return true
+    }
+    
+    func resetNumbersRound() {
+        selectedNumbers = []
+        targetNumber = 0
+        targetUnits = 0
+        targetTens = 0
+        targetHundreds = 0
     }
 }
