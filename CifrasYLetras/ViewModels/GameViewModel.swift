@@ -22,14 +22,14 @@ class GameViewModel: ObservableObject {
     @Published var isPaused: Bool = false
     @Published var score: Int = 0
     
-    // Juego de Cifras
+    // Juego de Números
     @Published var selectedNumbers: [Int] = []
     @Published var targetNumber: Int = 0
     @Published var targetUnits: Int = 0
     @Published var targetTens: Int = 0
     @Published var targetHundreds: Int = 0
-    @Published var availableNumbers: [Int] = []
-    @Published var userSolution: [Int] = []
+    @Published var userSolution: String = ""
+    @Published var usedNumbers: [Int] = []
     
     // Estado del juego
     @Published var currentPhase: GamePhase = .letters
@@ -42,7 +42,7 @@ class GameViewModel: ObservableObject {
         self.game = game
     }
     
-    // Métodos para Letras
+    // Métodos para el juego de letras
     func selectVowel() {
         if selectedLetters.count < 10 {
             if let randomVowel = game.vowels.randomElement() {
@@ -151,6 +151,7 @@ class GameViewModel: ObservableObject {
             }
         } else {
             currentPhase = .letters
+            resetNumbersRound()
         }
     }
     
@@ -162,7 +163,7 @@ class GameViewModel: ObservableObject {
         isPaused = false
     }
     
-    // Métodos para Cifras
+    // Métodos para el juego de números
     func selectNumber() {
         if selectedNumbers.count < 6 {
             let allNumbers = Array(1...10) + [25, 50, 75, 100]
@@ -201,9 +202,27 @@ class GameViewModel: ObservableObject {
         }
     }
     
-    func checkSolution() -> Bool {
-        // Lógica para verificar la solución numérica
-        return true
+    func addNumberToSolution(number: Int) {
+        if !usedNumbers.contains(number) {
+            userSolution += "\(number)"
+            usedNumbers.append(number)
+        }
+    }
+    
+    func addOperatorToSolution(op: String) {
+        userSolution += " \(op) "
+    }
+    
+    func removeLastEntryFromSolution() {
+        guard !userSolution.isEmpty else { return }
+        let components = userSolution.split(separator: " ")
+        if !components.isEmpty {
+            let lastComponent = components.last!
+            if let lastNumber = Int(lastComponent), let index = usedNumbers.firstIndex(of: lastNumber) {
+                usedNumbers.remove(at: index)
+            }
+            userSolution = components.dropLast().joined(separator: " ")
+        }
     }
     
     func resetNumbersRound() {
@@ -212,5 +231,52 @@ class GameViewModel: ObservableObject {
         targetUnits = 0
         targetTens = 0
         targetHundreds = 0
+        userSolution = ""
+        usedNumbers = []
+    }
+    
+    func evaluateSolution() -> Int? {
+        let components = userSolution.split(separator: " ")
+        guard !components.isEmpty else { return nil }
+        
+        var result: Int?
+        var currentOperator: String?
+        
+        for component in components {
+            if let number = Int(component) {
+                if let currentResult = result {
+                    switch currentOperator {
+                    case "+":
+                        result = currentResult + number
+                    case "-":
+                        result = currentResult - number
+                    case "*":
+                        result = currentResult * number
+                    case "/":
+                        result = currentResult / number
+                    default:
+                        break
+                    }
+                } else {
+                    result = number
+                }
+            } else {
+                currentOperator = String(component)
+            }
+        }
+        
+        return result
+    }
+    
+    func checkSolution() -> Bool {
+        guard let result = evaluateSolution() else { return false }
+        if result == targetNumber {
+            score += 10
+            return true
+        } else if abs(result - targetNumber) <= 10 {
+            score += 5
+            return true
+        }
+        return false
     }
 }

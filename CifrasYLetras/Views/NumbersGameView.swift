@@ -16,6 +16,12 @@ struct NumbersGameView: View {
                 .font(.largeTitle)
                 .padding()
             
+            if viewModel.timerValue > 0 {
+                Text("Tiempo: \(viewModel.timerValue)")
+                    .font(.title)
+                    .padding()
+            }
+            
             Button(action: viewModel.selectNumber) {
                 Text("Número")
                     .frame(maxWidth: .infinity, minHeight: 50)
@@ -30,72 +36,129 @@ struct NumbersGameView: View {
                 ForEach(0..<6) { index in
                     GeometryReader { geometry in
                         if index < viewModel.selectedNumbers.count {
-                            Text("\(viewModel.selectedNumbers[index])")
-                                .font(.largeTitle)
-                                .frame(width: geometry.size.width, height: geometry.size.width)
-                                .background(Color.gray.opacity(0.3))
-                                .cornerRadius(8)
+                            NumberSlotView(number: viewModel.selectedNumbers[index])
+                                .onTapGesture {
+                                    viewModel.addNumberToSolution(number: viewModel.selectedNumbers[index])
+                                }
                         } else {
-                            Text(" ")
-                                .font(.largeTitle)
-                                .frame(width: geometry.size.width, height: geometry.size.width)
-                                .background(Color.gray.opacity(0.3))
+                            Rectangle()
+                                .frame(width: geometry.size.width, height: geometry.size.height)
+                                .foregroundColor(Color.gray.opacity(0.1))
                                 .cornerRadius(8)
                         }
                     }
+                    .frame(width: 50, height: 50)
+                    .padding(.horizontal, 5)
                 }
             }
-            .frame(height: 100)
             .padding()
             
-            if viewModel.selectedNumbers.count == 6 {
-                HStack {
-                    NumberSlotView(number: viewModel.targetHundreds)
-                    NumberSlotView(number: viewModel.targetTens)
-                    NumberSlotView(number: viewModel.targetUnits)
+            HStack {
+                NumberSlotView(number: viewModel.targetHundreds)
+                NumberSlotView(number: viewModel.targetTens)
+                NumberSlotView(number: viewModel.targetUnits)
+            }
+            .padding()
+            
+            if viewModel.isTimerActive {
+                Button(action: viewModel.pauseTimer) {
+                    Image(systemName: "pause.fill")
+                        .padding()
+                        .background(Color.orange)
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
                 }
                 .padding()
-                
-                Text("Tiempo restante: \(viewModel.timerValue) segundos")
-                    .font(.title)
-                    .padding()
-                
-                if viewModel.isTimerActive {
-                    HStack {
-                        Button(action: viewModel.pauseTimer) {
-                            Image(systemName: "pause.fill")
-                                .padding()
-                                .background(Color.orange)
-                                .foregroundColor(.white)
-                                .cornerRadius(8)
-                        }
+            } else if viewModel.isPaused {
+                Button(action: viewModel.resumeTimer) {
+                    Image(systemName: "play.fill")
                         .padding()
-                    }
-                } else if viewModel.isPaused {
-                    HStack {
-                        Button(action: viewModel.resumeTimer) {
-                            Image(systemName: "play.fill")
-                                .padding()
-                                .background(Color.green)
-                                .foregroundColor(.white)
-                                .cornerRadius(8)
-                        }
-                        .padding()
-                    }
-                }
-                
-                Button(action: {
-                    let isValid = viewModel.checkSolution()
-                }) {
-                    Text("Comprobar solución")
-                        .padding()
-                        .background(Color.green)
+                        .background(Color.orange)
                         .foregroundColor(.white)
                         .cornerRadius(8)
                 }
                 .padding()
             }
+            
+            VStack {
+                HStack {
+                    Button(action: {
+                        viewModel.addOperatorToSolution(op: "+")
+                    }) {
+                        Text("+")
+                            .font(.title)
+                            .frame(width: 50, height: 50)
+                            .background(Color.gray.opacity(0.3))
+                            .cornerRadius(8)
+                    }
+                    
+                    Button(action: {
+                        viewModel.addOperatorToSolution(op: "-")
+                    }) {
+                        Text("-")
+                            .font(.title)
+                            .frame(width: 50, height: 50)
+                            .background(Color.gray.opacity(0.3))
+                            .cornerRadius(8)
+                    }
+                    
+                    Button(action: {
+                        viewModel.addOperatorToSolution(op: "*")
+                    }) {
+                        Text("*")
+                            .font(.title)
+                            .frame(width: 50, height: 50)
+                            .background(Color.gray.opacity(0.3))
+                            .cornerRadius(8)
+                    }
+                    
+                    Button(action: {
+                        viewModel.addOperatorToSolution(op: "/")
+                    }) {
+                        Text("/")
+                            .font(.title)
+                            .frame(width: 50, height: 50)
+                            .background(Color.gray.opacity(0.3))
+                            .cornerRadius(8)
+                    }
+                }
+                .padding()
+                
+                TextField("Solución", text: $viewModel.userSolution)
+                    .font(.title)
+                    .padding()
+                    .background(Color.white)
+                    .cornerRadius(8)
+                    .shadow(radius: 4)
+                
+                HStack {
+                    Button(action: viewModel.removeLastEntryFromSolution) {
+                        Text("Borrar")
+                            .padding()
+                            .background(Color.red)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
+                    }
+                    
+                    Button(action: {
+                        let isValid = viewModel.checkSolution()
+                        if isValid {
+                            // handle success
+                        } else {
+                            // handle failure
+                        }
+                    }) {
+                        Text("Comprobar solución")
+                            .padding()
+                            .background(Color.green)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
+                    }
+                }
+                .padding()
+            }
         }
+        .padding()
     }
 }
 
@@ -105,7 +168,7 @@ struct NumberSlotView: View {
     var body: some View {
         Text("\(number)")
             .font(.largeTitle)
-            .frame(width: 80, height: 80)
+            .frame(width: 50, height: 50)
             .background(Color.gray.opacity(0.3))
             .cornerRadius(8)
     }
