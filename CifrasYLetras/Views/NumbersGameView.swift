@@ -36,7 +36,7 @@ struct NumbersGameView: View {
                 ForEach(0..<6) { index in
                     GeometryReader { geometry in
                         if index < viewModel.selectedNumbers.count {
-                            NumberSlotView(number: viewModel.selectedNumbers[index])
+                            NumberSlotView(number: viewModel.selectedNumbers[index], isUsed: viewModel.usedNumbers.contains(viewModel.selectedNumbers[index]))
                                 .onTapGesture {
                                     viewModel.addNumberToSolution(number: viewModel.selectedNumbers[index])
                                 }
@@ -54,9 +54,9 @@ struct NumbersGameView: View {
             .padding()
             
             HStack {
-                NumberSlotView(number: viewModel.targetHundreds)
-                NumberSlotView(number: viewModel.targetTens)
-                NumberSlotView(number: viewModel.targetUnits)
+                NumberSlotView(number: viewModel.targetHundreds, isUsed: false)
+                NumberSlotView(number: viewModel.targetTens, isUsed: false)
+                NumberSlotView(number: viewModel.targetUnits, isUsed: false)
             }
             .padding()
             
@@ -124,7 +124,7 @@ struct NumbersGameView: View {
                 }
                 .padding()
                 
-                TextField("Solución", text: $viewModel.userSolution)
+                Text(viewModel.userSolution)
                     .font(.title)
                     .padding()
                     .background(Color.white)
@@ -141,12 +141,7 @@ struct NumbersGameView: View {
                     }
                     
                     Button(action: {
-                        let isValid = viewModel.checkSolution()
-                        if isValid {
-                            // handle success
-                        } else {
-                            // handle failure
-                        }
+                        viewModel.showFinalSolution()
                     }) {
                         Text("Comprobar solución")
                             .padding()
@@ -164,12 +159,13 @@ struct NumbersGameView: View {
 
 struct NumberSlotView: View {
     var number: Int
+    var isUsed: Bool
     
     var body: some View {
         Text("\(number)")
             .font(.largeTitle)
             .frame(width: 50, height: 50)
-            .background(Color.gray.opacity(0.3))
+            .background(isUsed ? Color.red.opacity(0.5) : Color.gray.opacity(0.3))
             .cornerRadius(8)
     }
 }

@@ -14,15 +14,16 @@ enum GamePhase {
 }
 
 class GameViewModel: ObservableObject {
-    // Juego de Letras
+    // Letras
     @Published var selectedLetters: [String] = []
     @Published var userWord: String = ""
+    @Published var usedLettersIndices: [Int] = []
     @Published var timerValue: Int = 60
     @Published var isTimerActive: Bool = false
     @Published var isPaused: Bool = false
     @Published var score: Int = 0
     
-    // Juego de Números
+    // Cifras
     @Published var selectedNumbers: [Int] = []
     @Published var targetNumber: Int = 0
     @Published var targetUnits: Int = 0
@@ -31,7 +32,7 @@ class GameViewModel: ObservableObject {
     @Published var userSolution: String = ""
     @Published var usedNumbers: [Int] = []
     
-    // Estado del juego
+    // Otras propiedades
     @Published var currentPhase: GamePhase = .letters
     @Published var roundsCompleted: Int = 0
     
@@ -42,7 +43,7 @@ class GameViewModel: ObservableObject {
         self.game = game
     }
     
-    // Métodos para el juego de letras
+    // Métodos juego Letras
     func selectVowel() {
         if selectedLetters.count < 10 {
             if let randomVowel = game.vowels.randomElement() {
@@ -112,6 +113,7 @@ class GameViewModel: ObservableObject {
     func resetGame() {
         selectedLetters = []
         userWord = ""
+        usedLettersIndices = []
         timerValue = 60
         isTimerActive = false
         isPaused = false
@@ -158,12 +160,26 @@ class GameViewModel: ObservableObject {
     private func resetLettersRound() {
         selectedLetters = []
         userWord = ""
+        usedLettersIndices = []
         timerValue = 60
         isTimerActive = false
         isPaused = false
     }
     
-    // Métodos para el juego de números
+    func toggleLetterUsage(at index: Int) {
+        let letter = selectedLetters[index]
+        if usedLettersIndices.contains(index) {
+            usedLettersIndices.removeAll { $0 == index }
+            if let range = userWord.range(of: letter) {
+                userWord.removeSubrange(range)
+            }
+        } else {
+            usedLettersIndices.append(index)
+            userWord.append(letter)
+        }
+    }
+    
+    // Métodos juego Cifras
     func selectNumber() {
         if selectedNumbers.count < 6 {
             let allNumbers = Array(1...10) + [25, 50, 75, 100]
@@ -206,6 +222,7 @@ class GameViewModel: ObservableObject {
         if !usedNumbers.contains(number) {
             userSolution += "\(number)"
             usedNumbers.append(number)
+            checkAndEvaluatePartialSolution()
         }
     }
     
@@ -278,5 +295,19 @@ class GameViewModel: ObservableObject {
             return true
         }
         return false
+    }
+    
+    func checkAndEvaluatePartialSolution() {
+        let components = userSolution.split(separator: " ")
+        if components.count == 3 {
+            if let result = evaluateSolution() {
+                userSolution = "\(result)"
+            }
+        }
+    }
+    
+    func showFinalSolution() {
+        guard let result = evaluateSolution() else { return }
+        userSolution += " = \(result)"
     }
 }

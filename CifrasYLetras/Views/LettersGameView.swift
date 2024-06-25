@@ -20,7 +20,7 @@ struct LettersGameView: View {
                 Button(action: viewModel.selectVowel) {
                     Text("Vocal")
                         .frame(maxWidth: .infinity, minHeight: 50)
-                        .background(Color.blue)
+                        .background(Color.purple)
                         .foregroundColor(.white)
                         .cornerRadius(8)
                 }
@@ -29,7 +29,7 @@ struct LettersGameView: View {
                 Button(action: viewModel.selectConsonant) {
                     Text("Consonante")
                         .frame(maxWidth: .infinity, minHeight: 50)
-                        .background(Color.green)
+                        .background(Color.cyan)
                         .foregroundColor(.white)
                         .cornerRadius(8)
                 }
@@ -48,8 +48,11 @@ struct LettersGameView: View {
                                     Text(viewModel.selectedLetters[index])
                                         .font(.largeTitle)
                                         .frame(width: geometry.size.width, height: geometry.size.width)
-                                        .background(Color.gray.opacity(0.3))
+                                        .background(viewModel.usedLettersIndices.contains(index) ? Color.red.opacity(0.5) : Color.gray.opacity(0.3))
                                         .cornerRadius(8)
+                                        .onTapGesture {
+                                            viewModel.toggleLetterUsage(at: index)
+                                        }
                                 } else {
                                     Text(" ")
                                         .font(.largeTitle)
@@ -65,14 +68,19 @@ struct LettersGameView: View {
             .frame(height: 100)
             .padding()
             
+            Text(viewModel.userWord)
+                .font(.title)
+                .padding()
+                .frame(width: 300, height: 50)
+                .fixedSize(horizontal: true, vertical: false)
+                .background(Color.white)
+                .cornerRadius(8)
+                .shadow(radius: 4)
+                .padding()
+            
             Text("Tiempo: \(viewModel.timerValue) segundos")
                 .font(.title)
                 .padding()
-            
-            TextField("Tu palabra", text: $viewModel.userWord)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding()
-                .disabled(!viewModel.isTimerActive)
             
             if viewModel.isTimerActive {
                 HStack {
