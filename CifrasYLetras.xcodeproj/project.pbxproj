@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EB7E13CF2C2D5285000993DD /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = EB7E13CE2C2D5285000993DD /* Lottie */; };
 		EB83790D2C2ACC6300727CC1 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB83790C2C2ACC6300727CC1 /* SplashView.swift */; };
 		EB93B87D2C208F110004478F /* CifrasYLetrasApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB93B87C2C208F110004478F /* CifrasYLetrasApp.swift */; };
 		EB93B87F2C208F110004478F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB93B87E2C208F110004478F /* ContentView.swift */; };
@@ -61,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EB7E13CF2C2D5285000993DD /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -182,6 +184,9 @@
 			dependencies = (
 			);
 			name = CifrasYLetras;
+			packageProductDependencies = (
+				EB7E13CE2C2D5285000993DD /* Lottie */,
+			);
 			productName = CifrasYLetras;
 			productReference = EB93B8792C208F110004478F /* CifrasYLetras.app */;
 			productType = "com.apple.product-type.application";
@@ -254,6 +259,9 @@
 				Base,
 			);
 			mainGroup = EB93B8702C208F110004478F;
+			packageReferences = (
+				EB7E13CD2C2D5285000993DD /* XCRemoteSwiftPackageReference "lottie-ios" */,
+			);
 			productRefGroup = EB93B87A2C208F110004478F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -632,6 +640,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		EB7E13CD2C2D5285000993DD /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.4.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		EB7E13CE2C2D5285000993DD /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EB7E13CD2C2D5285000993DD /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = EB93B8712C208F110004478F /* Project object */;
 }

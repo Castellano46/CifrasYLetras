@@ -165,7 +165,7 @@ struct NumberSlotView: View {
         Text("\(number)")
             .font(.largeTitle)
             .frame(width: 50, height: 50)
-            .background(isUsed ? Color.red.opacity(0.5) : Color.gray.opacity(0.3))
+            .background(isUsed ? Color.red.opacity(0.5) : Color.yellow.opacity(0.3))
             .cornerRadius(8)
     }
 }

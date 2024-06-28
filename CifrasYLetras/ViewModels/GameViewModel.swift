@@ -18,10 +18,6 @@ class GameViewModel: ObservableObject {
     @Published var selectedLetters: [String] = []
     @Published var userWord: String = ""
     @Published var usedLettersIndices: [Int] = []
-    @Published var timerValue: Int = 60
-    @Published var isTimerActive: Bool = false
-    @Published var isPaused: Bool = false
-    @Published var score: Int = 0
     
     // Cifras
     @Published var selectedNumbers: [Int] = []
@@ -33,6 +29,10 @@ class GameViewModel: ObservableObject {
     @Published var usedNumbers: [Int] = []
     
     // Otras propiedades
+    @Published var timerValue: Int = 60
+    @Published var isTimerActive: Bool = false
+    @Published var isPaused: Bool = false
+    @Published var score: Int = 0
     @Published var currentPhase: GamePhase = .letters
     @Published var roundsCompleted: Int = 0
     
@@ -41,6 +41,17 @@ class GameViewModel: ObservableObject {
     
     init(game: GameModel) {
         self.game = game
+        startNewRound()
+    }
+    
+    func startNewRound() {
+        switch currentPhase {
+        case .letters:
+            resetLettersRound()
+        case .numbers:
+            resetNumbersRound()
+        }
+        startTimer()
     }
     
     // Métodos juego Letras
@@ -69,6 +80,8 @@ class GameViewModel: ObservableObject {
     func startTimer() {
         isTimerActive = true
         isPaused = false
+        timerValue = 60
+        timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
             guard let self = self else { return }
             if self.timerValue > 0 {
@@ -114,14 +127,22 @@ class GameViewModel: ObservableObject {
         selectedLetters = []
         userWord = ""
         usedLettersIndices = []
+        selectedNumbers = []
+        targetNumber = 0
+        targetUnits = 0
+        targetTens = 0
+        targetHundreds = 0
+        userSolution = ""
+        usedNumbers = []
         timerValue = 60
         isTimerActive = false
         isPaused = false
-        roundsCompleted = 0
         score = 0
         currentPhase = .letters
+        roundsCompleted = 0
         timer?.invalidate()
         timer = nil
+        startNewRound()
     }
     
     private func calculateScore() {
@@ -148,13 +169,15 @@ class GameViewModel: ObservableObject {
             roundsCompleted += 1
             if roundsCompleted % 2 == 0 {
                 currentPhase = .numbers
+                resetNumbersRound()
             } else {
                 resetLettersRound()
             }
         } else {
             currentPhase = .letters
-            resetNumbersRound()
+            resetLettersRound()
         }
+        startTimer()
     }
     
     private func resetLettersRound() {
@@ -242,7 +265,7 @@ class GameViewModel: ObservableObject {
         }
     }
     
-    func resetNumbersRound() {
+    private func resetNumbersRound() {
         selectedNumbers = []
         targetNumber = 0
         targetUnits = 0
@@ -250,6 +273,9 @@ class GameViewModel: ObservableObject {
         targetHundreds = 0
         userSolution = ""
         usedNumbers = []
+        timerValue = 60
+        isTimerActive = false
+        isPaused = false
     }
     
     func evaluateSolution() -> Int? {
