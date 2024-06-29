@@ -8,14 +8,22 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var viewModel = GameViewModel(game: GameModel())
+    @StateObject private var viewModel = GameViewModel(game: GameModel())
+    @State private var showHome = false
     
     var body: some View {
-        VStack {
-            if viewModel.currentPhase == .letters {
-                LettersGameView(viewModel: viewModel)
+        Group {
+            if showHome {
+                HomeView(viewModel: viewModel)
             } else {
-                NumbersGameView(viewModel: viewModel)
+                SplashView()
+                    .onAppear {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                            withAnimation {
+                                showHome = true
+                            }
+                        }
+                    }
             }
         }
     }

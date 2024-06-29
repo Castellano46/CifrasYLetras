@@ -10,6 +10,10 @@ import SwiftUI
 struct LettersGameView: View {
     @ObservedObject var viewModel: GameViewModel
     
+    init(viewModel: GameViewModel) {
+            self.viewModel = viewModel
+        }
+    
     var body: some View {
         VStack {
             Text("Letras")
@@ -109,6 +113,11 @@ struct LettersGameView: View {
             Text("Puntuación: \(viewModel.score)")
                 .font(.title)
                 .padding()
+        }
+        
+        .onAppear {
+            viewModel.resetGame()
+            viewModel.startTimer()
         }
     }
 }
