@@ -137,7 +137,7 @@ class GameViewModel: ObservableObject {
         timerValue = 60
         isTimerActive = false
         isPaused = false
-        score = 0
+        // No reiniciar el puntaje
         currentPhase = .letters
         roundsCompleted = 0
         timer?.invalidate()
@@ -165,6 +165,7 @@ class GameViewModel: ObservableObject {
     }
     
     func advanceToNextPhase() {
+        stopTimer()
         if currentPhase == .letters {
             roundsCompleted += 1
             if roundsCompleted % 2 == 0 {
@@ -258,8 +259,11 @@ class GameViewModel: ObservableObject {
         let components = userSolution.split(separator: " ")
         if !components.isEmpty {
             let lastComponent = components.last!
-            if let lastNumber = Int(lastComponent), let index = usedNumbers.firstIndex(of: lastNumber) {
-                usedNumbers.remove(at: index)
+            if let lastNumber = Int(lastComponent) {
+                // Devolver el número utilizado a la lista de números disponibles
+                if let index = usedNumbers.firstIndex(of: lastNumber) {
+                    usedNumbers.remove(at: index)
+                }
             }
             userSolution = components.dropLast().joined(separator: " ")
         }
@@ -328,6 +332,8 @@ class GameViewModel: ObservableObject {
         if components.count == 3 {
             if let result = evaluateSolution() {
                 userSolution = "\(result)"
+                // Devolver los números utilizados en la operación a la lista de disponibles
+                usedNumbers = usedNumbers.filter { !userSolution.contains("\($0)") }
             }
         }
     }

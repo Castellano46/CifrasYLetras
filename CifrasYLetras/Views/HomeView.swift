@@ -22,30 +22,52 @@ struct HomeView: View {
                     .scaledToFill()
                     .edgesIgnoringSafeArea(.all)
                 
-                VStack {
-                    
-                    NavigationLink(destination: LettersGameView(viewModel: viewModel)) {
-                        Text("Inicio")
-                            .font(.title)
-                            .frame(maxWidth: 170, minHeight: 30)
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
+                VStack(spacing: 20) {
+                    NavigationLink(destination: GameView(viewModel: viewModel)) {
+                        Circle()
+                            .foregroundColor(.green)
+                            .frame(width: 120, height: 120)
+                            .overlay(
+                                Image(systemName: "play.circle.fill")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 80, height: 80)
+                                    .foregroundColor(.white)
+                            )
                     }
                     
                     Button(action: {
                         // Acción para mostrar puntuaciones
                     }) {
-                        Text("Puntuaciones")
-                            .font(.title)
-                            .frame(maxWidth: 170, minHeight: 30)
-                            .padding()
-                            .background(Color.green)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
+                        Circle()
+                            .foregroundColor(.red)
+                            .frame(width: 120, height: 120)
+                            .overlay(
+                                Image(systemName: "list.bullet")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 80, height: 80)
+                                    .foregroundColor(.white)
+                            )
                     }
                 }
+                .padding()
+                .opacity(0.9)
+            }
+        }
+    }
+}
+
+struct GameView: View {
+    @ObservedObject var viewModel: GameViewModel
+    
+    var body: some View {
+        Group {
+            switch viewModel.currentPhase {
+            case .letters:
+                LettersGameView(viewModel: viewModel)
+            case .numbers:
+                NumbersGameView(viewModel: viewModel)
             }
         }
     }
