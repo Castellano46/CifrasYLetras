@@ -36,6 +36,19 @@ struct HomeView: View {
                             )
                     }
                     
+                    NavigationLink(destination: HowToPlayView()) {
+                        Circle()
+                            .foregroundColor(.green)
+                            .frame(width: 120, height: 120)
+                            .overlay(
+                                Image(systemName: "book.circle.fill")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 80, height: 80)
+                                    .foregroundColor(.white)
+                            )
+                    }
+                    
                     Button(action: {
                         // Acción para mostrar puntuaciones
                     }) {
@@ -43,7 +56,7 @@ struct HomeView: View {
                             .foregroundColor(.red)
                             .frame(width: 120, height: 120)
                             .overlay(
-                                Image(systemName: "list.bullet")
+                                Image(systemName: "trophy.circle.fill")
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 80, height: 80)
@@ -54,6 +67,7 @@ struct HomeView: View {
                 .padding()
                 .opacity(0.9)
             }
+            .navigationViewStyle(StackNavigationViewStyle())
         }
     }
 }

@@ -38,6 +38,7 @@ class GameViewModel: ObservableObject {
     
     private var game: GameModel
     private var timer: Timer?
+    private var isFirstRound: Bool = true
     
     init(game: GameModel) {
         self.game = game
@@ -51,7 +52,9 @@ class GameViewModel: ObservableObject {
         case .numbers:
             resetNumbersRound()
         }
-        startTimer()
+        if !isFirstRound {
+            startTimerIfNeeded()
+        }
     }
     
     // Métodos juego Letras
@@ -62,7 +65,7 @@ class GameViewModel: ObservableObject {
             }
         }
         if selectedLetters.count == 10 {
-            startTimer()
+            startTimerIfNeeded()
         }
     }
     
@@ -73,6 +76,17 @@ class GameViewModel: ObservableObject {
             }
         }
         if selectedLetters.count == 10 {
+            startTimerIfNeeded()
+        }
+    }
+    
+    func startTimerIfNeeded() {
+        if currentPhase == .letters && selectedLetters.count == 10 {
+            if isFirstRound {
+                isFirstRound = false
+            }
+            startTimer()
+        } else if currentPhase == .numbers && selectedNumbers.count == 6 {
             startTimer()
         }
     }
@@ -137,6 +151,7 @@ class GameViewModel: ObservableObject {
         timerValue = 60
         isTimerActive = false
         isPaused = false
+        isFirstRound = true
         // No reiniciar el puntaje
         currentPhase = .letters
         roundsCompleted = 0
@@ -178,7 +193,7 @@ class GameViewModel: ObservableObject {
             currentPhase = .letters
             resetLettersRound()
         }
-        startTimer()
+        startTimerIfNeeded()
     }
     
     private func resetLettersRound() {
@@ -191,6 +206,8 @@ class GameViewModel: ObservableObject {
     }
     
     func toggleLetterUsage(at index: Int) {
+        guard !isPaused else { return }
+        
         let letter = selectedLetters[index]
         if usedLettersIndices.contains(index) {
             usedLettersIndices.removeAll { $0 == index }
@@ -218,7 +235,7 @@ class GameViewModel: ObservableObject {
         if selectedNumbers.count == 6 {
             generateTargetNumber()
             animateTargetNumber()
-            startTimer()
+            startTimerIfNeeded()
         }
     }
     
@@ -243,6 +260,8 @@ class GameViewModel: ObservableObject {
     }
     
     func addNumberToSolution(number: Int) {
+        guard !isPaused else { return }
+        
         if !usedNumbers.contains(number) {
             userSolution += "\(number)"
             usedNumbers.append(number)
@@ -251,6 +270,8 @@ class GameViewModel: ObservableObject {
     }
     
     func addOperatorToSolution(op: String) {
+        guard !isPaused else { return }
+        
         userSolution += " \(op) "
     }
     

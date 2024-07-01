@@ -89,7 +89,7 @@ struct NumbersGameView: View {
                             .font(.title)
                             .frame(width: 50, height: 50)
                             .background(Color.gray.opacity(0.3))
-                            .cornerRadius(8)
+                            .cornerRadius(25)
                     }
                     
                     Button(action: {
@@ -99,7 +99,7 @@ struct NumbersGameView: View {
                             .font(.title)
                             .frame(width: 50, height: 50)
                             .background(Color.gray.opacity(0.3))
-                            .cornerRadius(8)
+                            .cornerRadius(25)
                     }
                     
                     Button(action: {
@@ -109,7 +109,7 @@ struct NumbersGameView: View {
                             .font(.title)
                             .frame(width: 50, height: 50)
                             .background(Color.gray.opacity(0.3))
-                            .cornerRadius(8)
+                            .cornerRadius(25)
                     }
                     
                     Button(action: {
@@ -119,7 +119,7 @@ struct NumbersGameView: View {
                             .font(.title)
                             .frame(width: 50, height: 50)
                             .background(Color.gray.opacity(0.3))
-                            .cornerRadius(8)
+                            .cornerRadius(25)
                     }
                 }
                 .padding()
