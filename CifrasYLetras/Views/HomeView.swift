@@ -38,7 +38,7 @@ struct HomeView: View {
                     
                     NavigationLink(destination: HowToPlayView()) {
                         Circle()
-                            .foregroundColor(.green)
+                            .foregroundColor(.teal)
                             .frame(width: 120, height: 120)
                             .overlay(
                                 Image(systemName: "book.circle.fill")
