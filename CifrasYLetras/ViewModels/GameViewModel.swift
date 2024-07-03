@@ -84,8 +84,10 @@ class GameViewModel: ObservableObject {
         if currentPhase == .letters && selectedLetters.count == 10 {
             if isFirstRound {
                 isFirstRound = false
+                startTimer()
+            } else {
+                startTimer()
             }
-            startTimer()
         } else if currentPhase == .numbers && selectedNumbers.count == 6 {
             startTimer()
         }
