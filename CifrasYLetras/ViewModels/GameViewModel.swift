@@ -59,6 +59,8 @@ class GameViewModel: ObservableObject {
     
     // Métodos juego Letras
     func selectVowel() {
+        guard !isPaused else { return }
+        
         if selectedLetters.count < 10 {
             if let randomVowel = game.vowels.randomElement() {
                 selectedLetters.append(randomVowel)
@@ -70,6 +72,8 @@ class GameViewModel: ObservableObject {
     }
     
     func selectConsonant() {
+        guard !isPaused else { return }
+        
         if selectedLetters.count < 10 {
             if let randomConsonant = game.consonants.randomElement() {
                 selectedLetters.append(randomConsonant)
@@ -84,10 +88,8 @@ class GameViewModel: ObservableObject {
         if currentPhase == .letters && selectedLetters.count == 10 {
             if isFirstRound {
                 isFirstRound = false
-                startTimer()
-            } else {
-                startTimer()
             }
+            startTimer()
         } else if currentPhase == .numbers && selectedNumbers.count == 6 {
             startTimer()
         }
@@ -224,6 +226,8 @@ class GameViewModel: ObservableObject {
     
     // Métodos juego Cifras
     func selectNumber() {
+        guard !isPaused else { return }
+        
         if selectedNumbers.count < 6 {
             let allNumbers = Array(1...10) + [25, 50, 75, 100]
             var number: Int

@@ -29,22 +29,34 @@ struct LettersGameView: View {
                 
                 HStack {
                     Button(action: viewModel.selectVowel) {
-                        Text("Vocal")
-                            .frame(maxWidth: .infinity, minHeight: 50)
-                            .background(Color.purple)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
+                        Circle()
+                            .foregroundColor(.purple)
+                            .frame(width: 100, height: 100)
+                            .overlay(
+                                Image(systemName: "v.circle")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 60, height: 60)
+                                    .foregroundColor(.white)
+                            )
                     }
-                    .padding(.horizontal, 5)
+                    .padding(.horizontal, 20)
+                    .disabled(viewModel.isPaused)  // Disable button if paused
                     
                     Button(action: viewModel.selectConsonant) {
-                        Text("Consonante")
-                            .frame(maxWidth: .infinity, minHeight: 50)
-                            .background(Color.cyan)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
+                        Circle()
+                            .foregroundColor(.cyan)
+                            .frame(width: 100, height: 100)
+                            .overlay(
+                                Image(systemName: "c.circle")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 60, height: 60)
+                                    .foregroundColor(.white)
+                            )
                     }
-                    .padding(.horizontal, 5)
+                    .padding(.horizontal, 20)
+                    .disabled(viewModel.isPaused)  // Disable button if paused
                 }
                 .frame(height: 50)
                 .padding()
@@ -65,6 +77,7 @@ struct LettersGameView: View {
                                             .onTapGesture {
                                                 viewModel.toggleLetterUsage(at: index)
                                             }
+                                            .disabled(viewModel.isPaused)  // Disable interaction if paused
                                     } else {
                                         Text(" ")
                                             .font(.largeTitle)
