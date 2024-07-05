@@ -41,7 +41,7 @@ struct LettersGameView: View {
                             )
                     }
                     .padding(.horizontal, 20)
-                    .disabled(viewModel.isPaused)  // Disable button if paused
+                    .disabled(viewModel.selectedLetters.count >= 10 || viewModel.isPaused)
                     
                     Button(action: viewModel.selectConsonant) {
                         Circle()
@@ -56,7 +56,7 @@ struct LettersGameView: View {
                             )
                     }
                     .padding(.horizontal, 20)
-                    .disabled(viewModel.isPaused)  // Disable button if paused
+                    .disabled(viewModel.selectedLetters.count >= 10 || viewModel.isPaused)
                 }
                 .frame(height: 50)
                 .padding()

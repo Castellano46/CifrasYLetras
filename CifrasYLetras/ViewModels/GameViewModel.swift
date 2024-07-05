@@ -59,7 +59,7 @@ class GameViewModel: ObservableObject {
     
     // Métodos juego Letras
     func selectVowel() {
-        guard !isPaused else { return }
+        guard !isPaused, selectedLetters.count < 10 else { return }
         
         if selectedLetters.count < 10 {
             if let randomVowel = game.vowels.randomElement() {
@@ -72,7 +72,7 @@ class GameViewModel: ObservableObject {
     }
     
     func selectConsonant() {
-        guard !isPaused else { return }
+        guard !isPaused, selectedLetters.count < 10 else { return }
         
         if selectedLetters.count < 10 {
             if let randomConsonant = game.consonants.randomElement() {
