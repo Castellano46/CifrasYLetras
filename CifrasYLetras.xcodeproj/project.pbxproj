@@ -11,6 +11,8 @@
 		EB7E13CF2C2D5285000993DD /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = EB7E13CE2C2D5285000993DD /* Lottie */; };
 		EB7F0D9A2C316B48007BCF2C /* HowToPlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7F0D992C316B48007BCF2C /* HowToPlayView.swift */; };
 		EB83790D2C2ACC6300727CC1 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB83790C2C2ACC6300727CC1 /* SplashView.swift */; };
+		EB8A0B6A2C3BD12700FC0513 /* LettersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8A0B692C3BD12700FC0513 /* LettersViewModel.swift */; };
+		EB8A0B6C2C3BD13700FC0513 /* NumbersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8A0B6B2C3BD13700FC0513 /* NumbersViewModel.swift */; };
 		EB93B87D2C208F110004478F /* CifrasYLetrasApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB93B87C2C208F110004478F /* CifrasYLetrasApp.swift */; };
 		EB93B87F2C208F110004478F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB93B87E2C208F110004478F /* ContentView.swift */; };
 		EB93B8812C208F120004478F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB93B8802C208F120004478F /* Assets.xcassets */; };
@@ -45,6 +47,8 @@
 		EB65561C2C2EA1980065FCF7 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		EB7F0D992C316B48007BCF2C /* HowToPlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToPlayView.swift; sourceTree = "<group>"; };
 		EB83790C2C2ACC6300727CC1 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
+		EB8A0B692C3BD12700FC0513 /* LettersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LettersViewModel.swift; sourceTree = "<group>"; };
+		EB8A0B6B2C3BD13700FC0513 /* NumbersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumbersViewModel.swift; sourceTree = "<group>"; };
 		EB93B8792C208F110004478F /* CifrasYLetras.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CifrasYLetras.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB93B87C2C208F110004478F /* CifrasYLetrasApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CifrasYLetrasApp.swift; sourceTree = "<group>"; };
 		EB93B87E2C208F110004478F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -110,9 +114,9 @@
 		EB93B87B2C208F110004478F /* CifrasYLetras */ = {
 			isa = PBXGroup;
 			children = (
+				EB93B8A62C2090EA0004478F /* Models */,
 				EB93B8AC2C20921F0004478F /* Views */,
 				EB93B8A92C20916B0004478F /* ViewModels */,
-				EB93B8A62C2090EA0004478F /* Models */,
 				EB93B87C2C208F110004478F /* CifrasYLetrasApp.swift */,
 				EB93B8802C208F120004478F /* Assets.xcassets */,
 				EB93B8822C208F120004478F /* Preview Content */,
@@ -157,6 +161,8 @@
 			isa = PBXGroup;
 			children = (
 				EB93B8AA2C2091A00004478F /* GameViewModel.swift */,
+				EB8A0B692C3BD12700FC0513 /* LettersViewModel.swift */,
+				EB8A0B6B2C3BD13700FC0513 /* NumbersViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -165,11 +171,11 @@
 			isa = PBXGroup;
 			children = (
 				EB93B87E2C208F110004478F /* ContentView.swift */,
-				EB93B8AD2C2092B00004478F /* LettersGameView.swift */,
-				EB93B8AF2C2093310004478F /* NumbersGameView.swift */,
 				EB83790C2C2ACC6300727CC1 /* SplashView.swift */,
 				EB65561C2C2EA1980065FCF7 /* HomeView.swift */,
 				EB7F0D992C316B48007BCF2C /* HowToPlayView.swift */,
+				EB93B8AD2C2092B00004478F /* LettersGameView.swift */,
+				EB93B8AF2C2093310004478F /* NumbersGameView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -316,6 +322,8 @@
 				EB7F0D9A2C316B48007BCF2C /* HowToPlayView.swift in Sources */,
 				EB93B87D2C208F110004478F /* CifrasYLetrasApp.swift in Sources */,
 				EB93B8A82C20914C0004478F /* GameModel.swift in Sources */,
+				EB8A0B6A2C3BD12700FC0513 /* LettersViewModel.swift in Sources */,
+				EB8A0B6C2C3BD13700FC0513 /* NumbersViewModel.swift in Sources */,
 				EB65561D2C2EA1980065FCF7 /* HomeView.swift in Sources */,
 				EB93B8B02C2093310004478F /* NumbersGameView.swift in Sources */,
 				EB83790D2C2ACC6300727CC1 /* SplashView.swift in Sources */,

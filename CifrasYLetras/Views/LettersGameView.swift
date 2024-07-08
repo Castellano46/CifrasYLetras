@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct LettersGameView: View {
-    @ObservedObject var viewModel: GameViewModel
+    @ObservedObject var lettersViewModel: LettersViewModel
+    @ObservedObject var gameViewModel: GameViewModel
     
-    init(viewModel: GameViewModel) {
-        self.viewModel = viewModel
+    init(lettersViewModel: LettersViewModel, gameViewModel: GameViewModel) {
+        self.lettersViewModel = lettersViewModel
+        self.gameViewModel = gameViewModel
     }
     
     var body: some View {
@@ -28,7 +30,7 @@ struct LettersGameView: View {
                     .padding(.top)
                 
                 HStack {
-                    Button(action: viewModel.selectVowel) {
+                    Button(action: lettersViewModel.selectVowel) {
                         Circle()
                             .foregroundColor(.purple)
                             .frame(width: 100, height: 100)
@@ -41,9 +43,9 @@ struct LettersGameView: View {
                             )
                     }
                     .padding(.horizontal, 20)
-                    .disabled(viewModel.selectedLetters.count >= 10 || viewModel.isPaused)
+                    .disabled(lettersViewModel.selectedLetters.count >= 10 || gameViewModel.isPaused)
                     
-                    Button(action: viewModel.selectConsonant) {
+                    Button(action: lettersViewModel.selectConsonant) {
                         Circle()
                             .foregroundColor(.cyan)
                             .frame(width: 100, height: 100)
@@ -56,7 +58,7 @@ struct LettersGameView: View {
                             )
                     }
                     .padding(.horizontal, 20)
-                    .disabled(viewModel.selectedLetters.count >= 10 || viewModel.isPaused)
+                    .disabled(lettersViewModel.selectedLetters.count >= 10 || gameViewModel.isPaused)
                 }
                 .frame(height: 50)
                 .padding()
@@ -67,17 +69,17 @@ struct LettersGameView: View {
                             ForEach(0..<5) { col in
                                 let index = row * 5 + col
                                 GeometryReader { geometry in
-                                    if index < viewModel.selectedLetters.count {
-                                        Text(viewModel.selectedLetters[index])
+                                    if index < lettersViewModel.selectedLetters.count {
+                                        Text(lettersViewModel.selectedLetters[index])
                                             .font(.largeTitle)
                                             .frame(width: geometry.size.width, height: geometry.size.width)
-                                            .background(viewModel.usedLettersIndices.contains(index) ? Color.red.opacity(0.8) : Color.gray.opacity(0.8))
+                                            .background(lettersViewModel.usedLettersIndices.contains(index) ? Color.red.opacity(0.8) : Color.gray.opacity(0.8))
                                             .border(Color.pink, width: 2)
                                             .cornerRadius(15)
                                             .onTapGesture {
-                                                viewModel.toggleLetterUsage(at: index)
+                                                lettersViewModel.toggleLetterUsage(at: index)
                                             }
-                                            .disabled(viewModel.isPaused)  // Disable interaction if paused
+                                            .disabled(gameViewModel.isPaused)  // Disable interaction if paused
                                     } else {
                                         Text(" ")
                                             .font(.largeTitle)
@@ -94,7 +96,7 @@ struct LettersGameView: View {
                 .frame(height: 100)
                 .padding()
                 
-                Text(viewModel.userWord)
+                Text(lettersViewModel.userWord)
                     .font(.title)
                     .padding()
                     .frame(width: 300, height: 50)
@@ -104,13 +106,13 @@ struct LettersGameView: View {
                     .shadow(radius: 4)
                     .padding()
                 
-                Text("Tiempo: \(viewModel.timerValue) segundos")
+                Text("Tiempo: \(gameViewModel.timerValue) segundos")
                     .font(.title)
                     .padding()
                 
-                if viewModel.isTimerActive {
+                if gameViewModel.isTimerActive {
                     HStack {
-                        Button(action: viewModel.pauseTimer) {
+                        Button(action: gameViewModel.pauseTimer) {
                             Image(systemName: "pause.fill")
                                 .padding()
                                 .background(Color.orange)
@@ -119,9 +121,9 @@ struct LettersGameView: View {
                         }
                         .padding()
                     }
-                } else if viewModel.isPaused {
+                } else if gameViewModel.isPaused {
                     HStack {
-                        Button(action: viewModel.resumeTimer) {
+                        Button(action: gameViewModel.resumeTimer) {
                             Image(systemName: "play.fill")
                                 .padding()
                                 .background(Color.green)
@@ -132,12 +134,12 @@ struct LettersGameView: View {
                     }
                 }
                 
-                Text("Puntuación: \(viewModel.score)")
+                Text("Puntuación: \(gameViewModel.score)")
                     .font(.title)
                     .padding()
             }
             .onAppear {
-                viewModel.resetGame()
+                gameViewModel.resetGame()
             }
         }
     }
@@ -145,6 +147,6 @@ struct LettersGameView: View {
 
 struct LettersGameView_Previews: PreviewProvider {
     static var previews: some View {
-        LettersGameView(viewModel: GameViewModel(game: GameModel()))
+        LettersGameView(lettersViewModel: LettersViewModel(game: GameModel()), gameViewModel: GameViewModel(game: GameModel()))
     }
 }

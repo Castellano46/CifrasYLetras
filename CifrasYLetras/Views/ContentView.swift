@@ -8,13 +8,15 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject private var viewModel = GameViewModel(game: GameModel())
+    @StateObject private var gameViewModel = GameViewModel(game: GameModel())
+    @StateObject private var lettersViewModel = LettersViewModel(game: GameModel())
+    @StateObject private var numbersViewModel = NumbersViewModel(game: GameModel())
     @State private var showHome = false
     
     var body: some View {
         Group {
             if showHome {
-                HomeView(viewModel: viewModel)
+                HomeView(viewModel: gameViewModel, lettersViewModel: lettersViewModel, numbersViewModel: numbersViewModel)
             } else {
                 SplashView()
                     .onAppear {

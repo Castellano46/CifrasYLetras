@@ -9,9 +9,13 @@ import SwiftUI
 
 struct HomeView: View {
     @ObservedObject var viewModel: GameViewModel
+    @ObservedObject var lettersViewModel: LettersViewModel
+    @ObservedObject var numbersViewModel: NumbersViewModel
     
-    init(viewModel: GameViewModel) {
+    init(viewModel: GameViewModel, lettersViewModel: LettersViewModel, numbersViewModel: NumbersViewModel) {
         self.viewModel = viewModel
+        self.lettersViewModel = lettersViewModel
+        self.numbersViewModel = numbersViewModel
     }
     
     var body: some View {
@@ -23,7 +27,7 @@ struct HomeView: View {
                     .edgesIgnoringSafeArea(.all)
                 
                 VStack(spacing: 20) {
-                    NavigationLink(destination: GameView(viewModel: viewModel)) {
+                    NavigationLink(destination: GameView(viewModel: viewModel, lettersViewModel: lettersViewModel, numbersViewModel: numbersViewModel)) {
                         Circle()
                             .foregroundColor(.green)
                             .frame(width: 120, height: 120)
@@ -74,14 +78,16 @@ struct HomeView: View {
 
 struct GameView: View {
     @ObservedObject var viewModel: GameViewModel
+    @ObservedObject var lettersViewModel: LettersViewModel
+    @ObservedObject var numbersViewModel: NumbersViewModel
     
     var body: some View {
         Group {
             switch viewModel.currentPhase {
             case .letters:
-                LettersGameView(viewModel: viewModel)
+                LettersGameView(lettersViewModel: lettersViewModel, gameViewModel: viewModel)
             case .numbers:
-                NumbersGameView(viewModel: viewModel)
+                NumbersGameView(numbersViewModel: numbersViewModel, gameViewModel: viewModel)
             }
         }
     }
@@ -89,7 +95,10 @@ struct GameView: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        let viewModel = GameViewModel(game: GameModel())
-        return HomeView(viewModel: viewModel)
+        let gameModel = GameModel()
+        let gameViewModel = GameViewModel(game: gameModel)
+        let lettersViewModel = LettersViewModel(game: gameModel)
+        let numbersViewModel = NumbersViewModel(game: gameModel)
+        return HomeView(viewModel: gameViewModel, lettersViewModel: lettersViewModel, numbersViewModel: numbersViewModel)
     }
 }

@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct NumbersGameView: View {
-    @ObservedObject var viewModel: GameViewModel
+    @ObservedObject var numbersViewModel: NumbersViewModel
+    @ObservedObject var gameViewModel: GameViewModel
     
     var body: some View {
         ZStack {
@@ -24,13 +25,13 @@ struct NumbersGameView: View {
                         .font(.largeTitle)
                         .padding(.top)
                     
-                    if viewModel.timerValue > 0 {
-                        Text("Tiempo: \(viewModel.timerValue)")
+                    if gameViewModel.timerValue > 0 {
+                        Text("Tiempo: \(gameViewModel.timerValue)")
                             .font(.title)
                             .padding()
                     }
                     
-                    Button(action: viewModel.selectNumber) {
+                    Button(action: numbersViewModel.selectNumber) {
                         Text("Número")
                             .frame(width: 150, height: 50)
                             .background(Color.blue)
@@ -38,15 +39,15 @@ struct NumbersGameView: View {
                             .cornerRadius(8)
                     }
                     .padding()
-                    .disabled(viewModel.selectedNumbers.count == 6)
+                    .disabled(numbersViewModel.selectedNumbers.count == 6)
                     
                     HStack {
                         ForEach(0..<6) { index in
                             GeometryReader { geometry in
-                                if index < viewModel.selectedNumbers.count {
-                                    NumberSlotView(number: viewModel.selectedNumbers[index], isUsed: viewModel.usedNumbers.contains(viewModel.selectedNumbers[index]))
+                                if index < numbersViewModel.selectedNumbers.count {
+                                    NumberSlotView(number: numbersViewModel.selectedNumbers[index], isUsed: numbersViewModel.usedNumbers.contains(numbersViewModel.selectedNumbers[index]))
                                         .onTapGesture {
-                                            viewModel.addNumberToSolution(number: viewModel.selectedNumbers[index])
+                                            numbersViewModel.addNumberToSolution(number: numbersViewModel.selectedNumbers[index])
                                         }
                                 } else {
                                     Rectangle()
@@ -63,14 +64,14 @@ struct NumbersGameView: View {
                     .padding()
                     
                     HStack {
-                        NumberSlotView(number: viewModel.targetHundreds, isUsed: false)
-                        NumberSlotView(number: viewModel.targetTens, isUsed: false)
-                        NumberSlotView(number: viewModel.targetUnits, isUsed: false)
+                        NumberSlotView(number: numbersViewModel.targetHundreds, isUsed: false)
+                        NumberSlotView(number: numbersViewModel.targetTens, isUsed: false)
+                        NumberSlotView(number: numbersViewModel.targetUnits, isUsed: false)
                     }
                     .padding()
                     
-                    if viewModel.isTimerActive {
-                        Button(action: viewModel.pauseTimer) {
+                    if gameViewModel.isTimerActive {
+                        Button(action: gameViewModel.pauseTimer) {
                             Image(systemName: "pause.fill")
                                 .padding()
                                 .background(Color.orange)
@@ -78,8 +79,8 @@ struct NumbersGameView: View {
                                 .cornerRadius(8)
                         }
                         .padding()
-                    } else if viewModel.isPaused {
-                        Button(action: viewModel.resumeTimer) {
+                    } else if gameViewModel.isPaused {
+                        Button(action: gameViewModel.resumeTimer) {
                             Image(systemName: "play.fill")
                                 .padding()
                                 .background(Color.orange)
@@ -92,7 +93,7 @@ struct NumbersGameView: View {
                     VStack {
                         HStack {
                             Button(action: {
-                                viewModel.addOperatorToSolution(op: "+")
+                                numbersViewModel.addOperatorToSolution(op: "+")
                             }) {
                                 Text("+")
                                     .font(.title)
@@ -103,7 +104,7 @@ struct NumbersGameView: View {
                             }
                             
                             Button(action: {
-                                viewModel.addOperatorToSolution(op: "-")
+                                numbersViewModel.addOperatorToSolution(op: "-")
                             }) {
                                 Text("-")
                                     .font(.title)
@@ -114,7 +115,7 @@ struct NumbersGameView: View {
                             }
                             
                             Button(action: {
-                                viewModel.addOperatorToSolution(op: "*")
+                                numbersViewModel.addOperatorToSolution(op: "*")
                             }) {
                                 Text("x")
                                     .font(.title)
@@ -125,7 +126,7 @@ struct NumbersGameView: View {
                             }
                             
                             Button(action: {
-                                viewModel.addOperatorToSolution(op: "/")
+                                numbersViewModel.addOperatorToSolution(op: "/")
                             }) {
                                 Text("/")
                                     .font(.title)
@@ -137,7 +138,7 @@ struct NumbersGameView: View {
                         }
                         .padding()
                         
-                        Text(viewModel.userSolution)
+                        Text(numbersViewModel.userSolution)
                             .font(.title)
                             .padding()
                             .background(Color.white)
@@ -145,7 +146,7 @@ struct NumbersGameView: View {
                             .shadow(radius: 4)
                         
                         HStack {
-                            Button(action: viewModel.removeLastEntryFromSolution) {
+                            Button(action: numbersViewModel.removeLastEntryFromSolution) {
                                 Text("Borrar")
                                     .padding()
                                     .background(Color.red)
@@ -154,7 +155,7 @@ struct NumbersGameView: View {
                             }
                             
                             Button(action: {
-                                viewModel.showFinalSolution()
+                                numbersViewModel.showFinalSolution()
                             }) {
                                 Text("Comprobar solución")
                                     .padding()
@@ -188,6 +189,6 @@ struct NumberSlotView: View {
 
 struct NumbersGameView_Previews: PreviewProvider {
     static var previews: some View {
-        NumbersGameView(viewModel: GameViewModel(game: GameModel()))
+        NumbersGameView(numbersViewModel: NumbersViewModel(game: GameModel()), gameViewModel: GameViewModel(game: GameModel()))
     }
 }
