@@ -13,8 +13,7 @@ enum GamePhase {
     case numbers
 }
 
-class GameViewModel: ObservableObject {
-    // Otras propiedades
+class GameViewModel: ObservableObject, LettersViewModelDelegate {
     @Published var timerValue: Int = 60
     @Published var isTimerActive: Bool = false
     @Published var isPaused: Bool = false
@@ -25,6 +24,7 @@ class GameViewModel: ObservableObject {
     private var game: GameModel
     private var timer: Timer?
     private var isFirstRound: Bool = true
+    var lettersViewModel: LettersViewModel?
     
     init(game: GameModel) {
         self.game = game
@@ -55,6 +55,7 @@ class GameViewModel: ObservableObject {
                 self.timerValue -= 1
             } else {
                 self.stopTimer()
+                self.updateScore()
                 self.advanceToNextPhase()
             }
         }
@@ -83,6 +84,7 @@ class GameViewModel: ObservableObject {
                 self.timerValue -= 1
             } else {
                 self.stopTimer()
+                self.updateScore()
                 self.advanceToNextPhase()
             }
         }
@@ -93,7 +95,6 @@ class GameViewModel: ObservableObject {
         isTimerActive = false
         isPaused = false
         isFirstRound = true
-        // No reiniciar el puntaje
         currentPhase = .letters
         roundsCompleted = 0
         timer?.invalidate()
@@ -105,6 +106,7 @@ class GameViewModel: ObservableObject {
         stopTimer()
         if currentPhase == .letters {
             roundsCompleted += 1
+            lettersViewModel?.resetLettersRound()
             if roundsCompleted % 2 == 0 {
                 currentPhase = .numbers
             } else {
@@ -113,6 +115,17 @@ class GameViewModel: ObservableObject {
         } else {
             currentPhase = .letters
         }
-        startTimerIfNeeded()
+    }
+
+    func allLettersSelected() {
+        startTimer()
+    }
+
+    private func updateScore() {
+        if currentPhase == .letters {
+            if let lettersViewModel = lettersViewModel {
+                score += lettersViewModel.calculateScore()
+            }
+        }
     }
 }

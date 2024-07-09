@@ -10,12 +10,14 @@ import SwiftUI
 struct LettersGameView: View {
     @ObservedObject var lettersViewModel: LettersViewModel
     @ObservedObject var gameViewModel: GameViewModel
-    
+
     init(lettersViewModel: LettersViewModel, gameViewModel: GameViewModel) {
         self.lettersViewModel = lettersViewModel
         self.gameViewModel = gameViewModel
+        self.lettersViewModel.delegate = gameViewModel
+        self.gameViewModel.lettersViewModel = lettersViewModel
     }
-    
+
     var body: some View {
         ZStack {
             Image("letras")
@@ -23,12 +25,12 @@ struct LettersGameView: View {
                 .scaledToFill()
                 .opacity(0.5)
                 .edgesIgnoringSafeArea(.all)
-            
+
             VStack {
                 Text("Letras")
                     .font(.largeTitle)
                     .padding(.top)
-                
+
                 HStack {
                     Button(action: lettersViewModel.selectVowel) {
                         Circle()
@@ -44,7 +46,7 @@ struct LettersGameView: View {
                     }
                     .padding(.horizontal, 20)
                     .disabled(lettersViewModel.selectedLetters.count >= 10 || gameViewModel.isPaused)
-                    
+
                     Button(action: lettersViewModel.selectConsonant) {
                         Circle()
                             .foregroundColor(.cyan)
@@ -62,7 +64,7 @@ struct LettersGameView: View {
                 }
                 .frame(height: 50)
                 .padding()
-                
+
                 VStack(spacing: 30) {
                     ForEach(0..<2) { row in
                         HStack(spacing: 20) {
@@ -79,7 +81,7 @@ struct LettersGameView: View {
                                             .onTapGesture {
                                                 lettersViewModel.toggleLetterUsage(at: index)
                                             }
-                                            .disabled(gameViewModel.isPaused)  // Disable interaction if paused
+                                            .disabled(gameViewModel.isPaused)
                                     } else {
                                         Text(" ")
                                             .font(.largeTitle)
@@ -95,7 +97,7 @@ struct LettersGameView: View {
                 }
                 .frame(height: 100)
                 .padding()
-                
+
                 Text(lettersViewModel.userWord)
                     .font(.title)
                     .padding()
@@ -105,11 +107,11 @@ struct LettersGameView: View {
                     .cornerRadius(8)
                     .shadow(radius: 4)
                     .padding()
-                
+
                 Text("Tiempo: \(gameViewModel.timerValue) segundos")
                     .font(.title)
                     .padding()
-                
+
                 if gameViewModel.isTimerActive {
                     HStack {
                         Button(action: gameViewModel.pauseTimer) {
@@ -133,7 +135,7 @@ struct LettersGameView: View {
                         .padding()
                     }
                 }
-                
+
                 Text("Puntuación: \(gameViewModel.score)")
                     .font(.title)
                     .padding()

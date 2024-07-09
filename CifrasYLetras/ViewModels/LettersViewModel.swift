@@ -8,37 +8,51 @@
 import Foundation
 import SwiftUI
 
+protocol LettersViewModelDelegate: AnyObject {
+    func allLettersSelected()
+}
+
 class LettersViewModel: ObservableObject {
     @Published var selectedLetters: [String] = []
     @Published var userWord: String = ""
     @Published var usedLettersIndices: [Int] = []
+
+    weak var delegate: LettersViewModelDelegate?
     
     private var game: GameModel
 
     init(game: GameModel) {
         self.game = game
     }
-    
+
     func selectVowel() {
         guard selectedLetters.count < 10 else { return }
-        
+
         if selectedLetters.count < 10 {
             if let randomVowel = game.vowels.randomElement() {
                 selectedLetters.append(randomVowel)
             }
         }
+        checkIfAllLettersSelected()
     }
-    
+
     func selectConsonant() {
         guard selectedLetters.count < 10 else { return }
-        
+
         if selectedLetters.count < 10 {
             if let randomConsonant = game.consonants.randomElement() {
                 selectedLetters.append(randomConsonant)
             }
         }
+        checkIfAllLettersSelected()
     }
-    
+
+    private func checkIfAllLettersSelected() {
+        if selectedLetters.count == 10 {
+            delegate?.allLettersSelected()
+        }
+    }
+
     func resetLettersRound() {
         selectedLetters = []
         userWord = ""
@@ -58,6 +72,14 @@ class LettersViewModel: ObservableObject {
         }
     }
 
+    func calculateScore() -> Int {
+        let isValid = isValidWord(word: userWord)
+        if isValid {
+            return userWord.count
+        }
+        return 0
+    }
+
     private func isValidWord(word: String) -> Bool {
         var lettersCopy = selectedLetters
         for char in word {
@@ -68,13 +90,5 @@ class LettersViewModel: ObservableObject {
             }
         }
         return true
-    }
-
-    private func calculateScore() -> Int {
-        let isValid = isValidWord(word: userWord)
-        if isValid {
-            return userWord.count
-        }
-        return 0
     }
 }
