@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EB2153732C3D2869006BAE29 /* PauseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2153722C3D2869006BAE29 /* PauseView.swift */; };
 		EB65561D2C2EA1980065FCF7 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB65561C2C2EA1980065FCF7 /* HomeView.swift */; };
 		EB7E13CF2C2D5285000993DD /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = EB7E13CE2C2D5285000993DD /* Lottie */; };
 		EB7F0D9A2C316B48007BCF2C /* HowToPlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7F0D992C316B48007BCF2C /* HowToPlayView.swift */; };
@@ -44,6 +45,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		EB2153722C3D2869006BAE29 /* PauseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PauseView.swift; sourceTree = "<group>"; };
 		EB65561C2C2EA1980065FCF7 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		EB7F0D992C316B48007BCF2C /* HowToPlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToPlayView.swift; sourceTree = "<group>"; };
 		EB83790C2C2ACC6300727CC1 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 				EB7F0D992C316B48007BCF2C /* HowToPlayView.swift */,
 				EB93B8AD2C2092B00004478F /* LettersGameView.swift */,
 				EB93B8AF2C2093310004478F /* NumbersGameView.swift */,
+				EB2153722C3D2869006BAE29 /* PauseView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -319,6 +322,7 @@
 				EB93B8AB2C2091A00004478F /* GameViewModel.swift in Sources */,
 				EB93B87F2C208F110004478F /* ContentView.swift in Sources */,
 				EB93B8AE2C2092B00004478F /* LettersGameView.swift in Sources */,
+				EB2153732C3D2869006BAE29 /* PauseView.swift in Sources */,
 				EB7F0D9A2C316B48007BCF2C /* HowToPlayView.swift in Sources */,
 				EB93B87D2C208F110004478F /* CifrasYLetrasApp.swift in Sources */,
 				EB93B8A82C20914C0004478F /* GameModel.swift in Sources */,
