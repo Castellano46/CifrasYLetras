@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Lottie
 
 struct SplashView: View {
     var body: some View {
@@ -18,14 +19,13 @@ struct SplashView: View {
                 .overlay(
                     VStack {
                         Spacer()
-                        ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle(tint: .blue))
-                            .foregroundColor(Color(UIColor(red: 100/255.0, green: 15/255.0, blue: 48/255.0, alpha: 1.0)))
-                            .font(.system(size: 20, weight: .bold))
-                            .scaleEffect(2.0)
+                        LottieView(animationName: "load",
+                                           loopMode: .loop,
+                                           contentMode: .scaleAspectFit)
+                            .frame(width: 450, height: 450)
                         Spacer()
                     }
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                 )
         }
     }

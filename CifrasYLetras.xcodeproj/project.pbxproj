@@ -14,6 +14,8 @@
 		EB83790D2C2ACC6300727CC1 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB83790C2C2ACC6300727CC1 /* SplashView.swift */; };
 		EB8A0B6A2C3BD12700FC0513 /* LettersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8A0B692C3BD12700FC0513 /* LettersViewModel.swift */; };
 		EB8A0B6C2C3BD13700FC0513 /* NumbersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8A0B6B2C3BD13700FC0513 /* NumbersViewModel.swift */; };
+		EB8C6D832C3E6F5E0050F89B /* load.json in Resources */ = {isa = PBXBuildFile; fileRef = EB8C6D822C3E6F5E0050F89B /* load.json */; };
+		EB8C6D852C3E6F890050F89B /* UIViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8C6D842C3E6F890050F89B /* UIViewRepresentable.swift */; };
 		EB93B87D2C208F110004478F /* CifrasYLetrasApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB93B87C2C208F110004478F /* CifrasYLetrasApp.swift */; };
 		EB93B87F2C208F110004478F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB93B87E2C208F110004478F /* ContentView.swift */; };
 		EB93B8812C208F120004478F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB93B8802C208F120004478F /* Assets.xcassets */; };
@@ -51,6 +53,8 @@
 		EB83790C2C2ACC6300727CC1 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		EB8A0B692C3BD12700FC0513 /* LettersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LettersViewModel.swift; sourceTree = "<group>"; };
 		EB8A0B6B2C3BD13700FC0513 /* NumbersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumbersViewModel.swift; sourceTree = "<group>"; };
+		EB8C6D822C3E6F5E0050F89B /* load.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = load.json; sourceTree = "<group>"; };
+		EB8C6D842C3E6F890050F89B /* UIViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewRepresentable.swift; sourceTree = "<group>"; };
 		EB93B8792C208F110004478F /* CifrasYLetras.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CifrasYLetras.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB93B87C2C208F110004478F /* CifrasYLetrasApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CifrasYLetrasApp.swift; sourceTree = "<group>"; };
 		EB93B87E2C208F110004478F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -93,6 +97,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EB8C6D812C3E6E9E0050F89B /* LottieFiles */ = {
+			isa = PBXGroup;
+			children = (
+				EB8C6D822C3E6F5E0050F89B /* load.json */,
+			);
+			path = LottieFiles;
+			sourceTree = "<group>";
+		};
 		EB93B8702C208F110004478F = {
 			isa = PBXGroup;
 			children = (
@@ -116,6 +128,7 @@
 		EB93B87B2C208F110004478F /* CifrasYLetras */ = {
 			isa = PBXGroup;
 			children = (
+				EB8C6D812C3E6E9E0050F89B /* LottieFiles */,
 				EB93B8A62C2090EA0004478F /* Models */,
 				EB93B8AC2C20921F0004478F /* Views */,
 				EB93B8A92C20916B0004478F /* ViewModels */,
@@ -179,6 +192,7 @@
 				EB93B8AD2C2092B00004478F /* LettersGameView.swift */,
 				EB93B8AF2C2093310004478F /* NumbersGameView.swift */,
 				EB2153722C3D2869006BAE29 /* PauseView.swift */,
+				EB8C6D842C3E6F890050F89B /* UIViewRepresentable.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -295,6 +309,7 @@
 			files = (
 				EB93B8842C208F120004478F /* Preview Assets.xcassets in Resources */,
 				EB93B8812C208F120004478F /* Assets.xcassets in Resources */,
+				EB8C6D832C3E6F5E0050F89B /* load.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -331,6 +346,7 @@
 				EB65561D2C2EA1980065FCF7 /* HomeView.swift in Sources */,
 				EB93B8B02C2093310004478F /* NumbersGameView.swift in Sources */,
 				EB83790D2C2ACC6300727CC1 /* SplashView.swift in Sources */,
+				EB8C6D852C3E6F890050F89B /* UIViewRepresentable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
