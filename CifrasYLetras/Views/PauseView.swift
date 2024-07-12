@@ -19,10 +19,11 @@ struct PauseView: View {
             VStack {
                 Spacer()
                 
-                Text("PAUSA")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .padding(.bottom, 50)
+                LottieView(animationName: "pause",
+                           loopMode: .loop,
+                           contentMode: .scaleAspectFit)
+                    .frame(width: 250, height: 170)
+                    .padding(0)
                 
                 VStack(spacing: 30) {
                     Button(action: {
