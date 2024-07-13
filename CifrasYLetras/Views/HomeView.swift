@@ -28,48 +28,21 @@ struct HomeView: View {
                 
                 VStack(spacing: 20) {
                     NavigationLink(destination: GameView(viewModel: viewModel, lettersViewModel: lettersViewModel, numbersViewModel: numbersViewModel)) {
-                        Circle()
-                            .foregroundColor(.green)
-                            .frame(width: 120, height: 120)
-                            .overlay(
-                                Image(systemName: "play.circle.fill")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 80, height: 80)
-                                    .foregroundColor(.white)
-                            )
+                        RealisticButton(color: .green, iconName: "play.circle.fill")
                     }
                     
                     NavigationLink(destination: HowToPlayView()) {
-                        Circle()
-                            .foregroundColor(.teal)
-                            .frame(width: 120, height: 120)
-                            .overlay(
-                                Image(systemName: "book.circle.fill")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 80, height: 80)
-                                    .foregroundColor(.white)
-                            )
+                        RealisticButton(color: .teal, iconName: "book.circle.fill")
                     }
                     
                     Button(action: {
                         // Acción para mostrar puntuaciones
                     }) {
-                        Circle()
-                            .foregroundColor(.red)
-                            .frame(width: 120, height: 120)
-                            .overlay(
-                                Image(systemName: "trophy.circle.fill")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 80, height: 80)
-                                    .foregroundColor(.white)
-                            )
+                        RealisticButton(color: .red, iconName: "trophy.circle.fill")
                     }
                 }
                 .padding()
-                .opacity(0.9)
+                .opacity(1)
             }
             .navigationViewStyle(StackNavigationViewStyle())
         }

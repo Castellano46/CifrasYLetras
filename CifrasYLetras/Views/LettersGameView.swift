@@ -33,31 +33,15 @@ struct LettersGameView: View {
 
                 HStack {
                     Button(action: lettersViewModel.selectVowel) {
-                        Circle()
-                            .foregroundColor(.purple)
+                        RealisticButton(color: .purple, iconName: "v.circle")
                             .frame(width: 100, height: 100)
-                            .overlay(
-                                Image(systemName: "v.circle")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 60, height: 60)
-                                    .foregroundColor(.white)
-                            )
                     }
                     .padding(.horizontal, 20)
                     .disabled(lettersViewModel.selectedLetters.count >= 10 || gameViewModel.isPaused)
 
                     Button(action: lettersViewModel.selectConsonant) {
-                        Circle()
-                            .foregroundColor(.cyan)
+                        RealisticButton(color: .cyan, iconName: "c.circle")
                             .frame(width: 100, height: 100)
-                            .overlay(
-                                Image(systemName: "c.circle")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 60, height: 60)
-                                    .foregroundColor(.white)
-                            )
                     }
                     .padding(.horizontal, 20)
                     .disabled(lettersViewModel.selectedLetters.count >= 10 || gameViewModel.isPaused)
