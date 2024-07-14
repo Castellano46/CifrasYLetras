@@ -10,7 +10,7 @@ import SwiftUI
 struct PauseView: View {
     var body: some View {
         ZStack {
-            Image("fondo")
+            Image("pause")
                 .resizable()
                 .scaledToFill()
                 .edgesIgnoringSafeArea(.all)
