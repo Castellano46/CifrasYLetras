@@ -43,22 +43,14 @@ struct NumbersGameView: View {
                     
                     HStack {
                         ForEach(0..<6) { index in
-                            GeometryReader { geometry in
-                                if index < numbersViewModel.selectedNumbers.count {
-                                    NumberSlotView(number: numbersViewModel.selectedNumbers[index], isUsed: numbersViewModel.usedNumbers.contains(numbersViewModel.selectedNumbers[index]))
-                                        .onTapGesture {
-                                            numbersViewModel.addNumberToSolution(number: numbersViewModel.selectedNumbers[index])
-                                        }
-                                } else {
-                                    Rectangle()
-                                        .frame(width: geometry.size.width, height: geometry.size.height)
-                                        .foregroundColor(Color.gray.opacity(0.8))
-                                        .border(Color.pink, width: 2)
-                                        .cornerRadius(8)
-                                }
+                            if index < numbersViewModel.selectedNumbers.count {
+                                NumberSlotView(number: numbersViewModel.selectedNumbers[index], isUsed: numbersViewModel.usedNumbers.contains(numbersViewModel.selectedNumbers[index]))
+                                    .onTapGesture {
+                                        numbersViewModel.addNumberToSolution(number: numbersViewModel.selectedNumbers[index])
+                                    }
+                            } else {
+                                NumberSlotView(number: 0, isUsed: false)
                             }
-                            .frame(width: 50, height: 50)
-                            .padding(.horizontal, 5)
                         }
                     }
                     .padding()
@@ -67,6 +59,15 @@ struct NumbersGameView: View {
                         NumberSlotView(number: numbersViewModel.targetHundreds, isUsed: false)
                         NumberSlotView(number: numbersViewModel.targetTens, isUsed: false)
                         NumberSlotView(number: numbersViewModel.targetUnits, isUsed: false)
+                    }
+                    .padding()
+                    
+                    HStack {
+                        ForEach(0..<4) { index in
+                            ResultSlotView(number: numbersViewModel.intermediateResults[index])
+                                .frame(width: 70, height: 70)
+                                .padding(.horizontal, 5)
+                        }
                     }
                     .padding()
                     
@@ -138,13 +139,6 @@ struct NumbersGameView: View {
                         }
                         .padding()
                         
-                        Text(numbersViewModel.userSolution)
-                            .font(.title)
-                            .padding()
-                            .background(Color.white)
-                            .cornerRadius(8)
-                            .shadow(radius: 4)
-                        
                         HStack {
                             Button(action: numbersViewModel.removeLastEntryFromSolution) {
                                 Text("Borrar")
@@ -178,10 +172,23 @@ struct NumberSlotView: View {
     var isUsed: Bool
     
     var body: some View {
-        Text("\(number)")
+        Text(number == 0 ? "" : "\(number)")
             .font(.largeTitle)
             .frame(width: 50, height: 50)
-            .background(isUsed ? Color.red.opacity(0.8) : Color.yellow.opacity(0.8))
+            .background(Color.yellow.opacity(0.8))
+            .border(Color.pink, width: 2)
+            .cornerRadius(8)
+    }
+}
+
+struct ResultSlotView: View {
+    var number: Int
+    
+    var body: some View {
+        Text(number == 0 ? "" : "\(number)")
+            .font(.largeTitle)
+            .frame(width: 70, height: 70)
+            .background(Color.yellow.opacity(0.8))
             .border(Color.pink, width: 2)
             .cornerRadius(8)
     }

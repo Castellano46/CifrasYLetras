@@ -16,6 +16,7 @@ class NumbersViewModel: ObservableObject {
     @Published var targetHundreds: Int = 0
     @Published var userSolution: String = ""
     @Published var usedNumbers: [Int] = []
+    @Published var intermediateResults: [Int] = Array(repeating: 0, count: 4)
 
     private var game: GameModel
 
@@ -68,6 +69,7 @@ class NumbersViewModel: ObservableObject {
         targetHundreds = 0
         userSolution = ""
         usedNumbers = []
+        intermediateResults = Array(repeating: 0, count: 4)
     }
 
     func addNumberToSolution(number: Int) {
@@ -88,7 +90,6 @@ class NumbersViewModel: ObservableObject {
         if !components.isEmpty {
             let lastComponent = components.last!
             if let lastNumber = Int(lastComponent) {
-                // Devolver el número utilizado a la lista de números disponibles
                 if let index = usedNumbers.firstIndex(of: lastNumber) {
                     usedNumbers.remove(at: index)
                 }
@@ -131,9 +132,17 @@ class NumbersViewModel: ObservableObject {
     }
     
     func checkAndEvaluatePartialSolution() {
-        if let result = evaluateSolution(), result == targetNumber {
-            // Realizar acción cuando se obtiene el resultado correcto
-            print("¡Solución correcta!")
+        if let result = evaluateSolution() {
+            for i in 0..<intermediateResults.count {
+                if intermediateResults[i] == 0 {
+                    intermediateResults[i] = result
+                    break
+                }
+            }
+            if result == targetNumber {
+                // Realizar acción cuando se obtiene el resultado correcto
+                print("¡Solución correcta!")
+            }
         }
     }
     
