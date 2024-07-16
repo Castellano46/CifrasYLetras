@@ -72,8 +72,14 @@ class NumbersViewModel: ObservableObject {
         intermediateResults = Array(repeating: 0, count: 4)
     }
 
-    func addNumberToSolution(number: Int) {
+    func selectNumberForOperation(number: Int) {
         if !usedNumbers.contains(number) {
+            addNumberToSolution(number: number)
+        }
+    }
+    
+    func addNumberToSolution(number: Int) {
+        if number != 0 && !usedNumbers.contains(number) {
             userSolution += "\(number)"
             usedNumbers.append(number)
             checkAndEvaluatePartialSolution()
@@ -140,7 +146,6 @@ class NumbersViewModel: ObservableObject {
                 }
             }
             if result == targetNumber {
-                // Realizar acción cuando se obtiene el resultado correcto
                 print("¡Solución correcta!")
             }
         }

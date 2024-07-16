@@ -43,14 +43,22 @@ struct NumbersGameView: View {
                     
                     HStack {
                         ForEach(0..<6) { index in
-                            if index < numbersViewModel.selectedNumbers.count {
-                                NumberSlotView(number: numbersViewModel.selectedNumbers[index], isUsed: numbersViewModel.usedNumbers.contains(numbersViewModel.selectedNumbers[index]))
-                                    .onTapGesture {
-                                        numbersViewModel.addNumberToSolution(number: numbersViewModel.selectedNumbers[index])
-                                    }
-                            } else {
-                                NumberSlotView(number: 0, isUsed: false)
+                            GeometryReader { geometry in
+                                if index < numbersViewModel.selectedNumbers.count {
+                                    NumberSlotView(number: numbersViewModel.selectedNumbers[index], isUsed: numbersViewModel.usedNumbers.contains(numbersViewModel.selectedNumbers[index]))
+                                        .onTapGesture {
+                                            numbersViewModel.selectNumberForOperation(number: numbersViewModel.selectedNumbers[index])
+                                        }
+                                } else {
+                                    Rectangle()
+                                        .frame(width: geometry.size.width, height: geometry.size.height)
+                                        .foregroundColor(Color.gray.opacity(0.8))
+                                        .border(Color.pink, width: 2)
+                                        .cornerRadius(8)
+                                }
                             }
+                            .frame(width: 50, height: 50)
+                            .padding(.horizontal, 5)
                         }
                     }
                     .padding()
@@ -61,16 +69,19 @@ struct NumbersGameView: View {
                         NumberSlotView(number: numbersViewModel.targetUnits, isUsed: false)
                     }
                     .padding()
-                    
+
                     HStack {
                         ForEach(0..<4) { index in
-                            ResultSlotView(number: numbersViewModel.intermediateResults[index])
+                            NumberSlotView(number: numbersViewModel.intermediateResults[index], isUsed: numbersViewModel.usedNumbers.contains(numbersViewModel.intermediateResults[index]))
                                 .frame(width: 70, height: 70)
                                 .padding(.horizontal, 5)
+                                .onTapGesture {
+                                    numbersViewModel.selectNumberForOperation(number: numbersViewModel.intermediateResults[index])
+                                }
                         }
                     }
                     .padding()
-                    
+
                     if gameViewModel.isTimerActive {
                         Button(action: gameViewModel.pauseTimer) {
                             Image(systemName: "pause.fill")
@@ -174,21 +185,8 @@ struct NumberSlotView: View {
     var body: some View {
         Text(number == 0 ? "" : "\(number)")
             .font(.largeTitle)
-            .frame(width: 50, height: 50)
-            .background(Color.yellow.opacity(0.8))
-            .border(Color.pink, width: 2)
-            .cornerRadius(8)
-    }
-}
-
-struct ResultSlotView: View {
-    var number: Int
-    
-    var body: some View {
-        Text(number == 0 ? "" : "\(number)")
-            .font(.largeTitle)
             .frame(width: 70, height: 70)
-            .background(Color.yellow.opacity(0.8))
+            .background(isUsed ? Color.red.opacity(0.8) : Color.yellow.opacity(0.8))
             .border(Color.pink, width: 2)
             .cornerRadius(8)
     }
