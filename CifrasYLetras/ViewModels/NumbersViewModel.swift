@@ -20,6 +20,9 @@ class NumbersViewModel: ObservableObject {
 
     private var game: GameModel
 
+    private var firstOperand: Int? = nil
+    private var selectedOperator: String? = nil
+
     init(game: GameModel) {
         self.game = game
     }
@@ -70,24 +73,65 @@ class NumbersViewModel: ObservableObject {
         userSolution = ""
         usedNumbers = []
         intermediateResults = Array(repeating: 0, count: 4)
+        firstOperand = nil
+        selectedOperator = nil
     }
 
     func selectNumberForOperation(number: Int) {
-        if !usedNumbers.contains(number) {
-            addNumberToSolution(number: number)
-        }
-    }
-    
-    func addNumberToSolution(number: Int) {
-        if number != 0 && !usedNumbers.contains(number) {
+        if usedNumbers.contains(number) { return }
+        
+        if firstOperand == nil {
+            firstOperand = number
             userSolution += "\(number)"
             usedNumbers.append(number)
-            checkAndEvaluatePartialSolution()
+        } else if let op = selectedOperator {
+            userSolution += " \(op) \(number)"
+            usedNumbers.append(number)
+            performOperation()
+            selectedOperator = nil
         }
     }
 
     func addOperatorToSolution(op: String) {
-        userSolution += " \(op) "
+        if firstOperand != nil && selectedOperator == nil {
+            selectedOperator = op
+            userSolution += " \(op)"
+        }
+    }
+
+    func performOperation() {
+        guard let firstOperand = firstOperand,
+              let selectedOperator = selectedOperator,
+              let secondOperand = userSolution.split(separator: " ").last.flatMap({ Int($0) }) else { return }
+        
+        var result: Int?
+
+        switch selectedOperator {
+        case "+":
+            result = firstOperand + secondOperand
+        case "-":
+            result = firstOperand - secondOperand
+        case "*":
+            result = firstOperand * secondOperand
+        case "/":
+            result = firstOperand / secondOperand
+        default:
+            break
+        }
+
+        if let result = result {
+            for i in 0..<intermediateResults.count {
+                if intermediateResults[i] == 0 {
+                    intermediateResults[i] = result
+                    break
+                }
+            }
+            if result == targetNumber {
+                // Realizar acción cuando se obtiene el resultado correcto
+                print("¡Solución correcta!")
+            }
+            self.firstOperand = nil
+        }
     }
 
     func removeLastEntryFromSolution() {
@@ -101,9 +145,16 @@ class NumbersViewModel: ObservableObject {
                 }
             }
             userSolution = components.dropLast().joined(separator: " ")
+            if components.count > 1, let penultimateComponent = components.dropLast().last, Int(penultimateComponent) != nil {
+                selectedOperator = nil
+                firstOperand = Int(penultimateComponent)
+            } else {
+                selectedOperator = nil
+                firstOperand = nil
+            }
         }
     }
-
+    
     func evaluateSolution() -> Int? {
         let components = userSolution.split(separator: " ")
         guard !components.isEmpty else { return nil }
@@ -136,7 +187,7 @@ class NumbersViewModel: ObservableObject {
         }
         return result
     }
-    
+
     func checkAndEvaluatePartialSolution() {
         if let result = evaluateSolution() {
             for i in 0..<intermediateResults.count {
@@ -146,11 +197,12 @@ class NumbersViewModel: ObservableObject {
                 }
             }
             if result == targetNumber {
+                // Realizar acción cuando se obtiene el resultado correcto
                 print("¡Solución correcta!")
             }
         }
     }
-    
+
     func showFinalSolution() {
         guard let result = evaluateSolution() else { return }
         userSolution += " = \(result)"

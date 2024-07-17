@@ -73,7 +73,7 @@ struct NumbersGameView: View {
                     HStack {
                         ForEach(0..<4) { index in
                             NumberSlotView(number: numbersViewModel.intermediateResults[index], isUsed: numbersViewModel.usedNumbers.contains(numbersViewModel.intermediateResults[index]))
-                                .frame(width: 70, height: 70)
+                                .frame(width: 70, height: 70) 
                                 .padding(.horizontal, 5)
                                 .onTapGesture {
                                     numbersViewModel.selectNumberForOperation(number: numbersViewModel.intermediateResults[index])
@@ -185,7 +185,7 @@ struct NumberSlotView: View {
     var body: some View {
         Text(number == 0 ? "" : "\(number)")
             .font(.largeTitle)
-            .frame(width: 70, height: 70)
+            .frame(width: 50, height: 50)
             .background(isUsed ? Color.red.opacity(0.8) : Color.yellow.opacity(0.8))
             .border(Color.pink, width: 2)
             .cornerRadius(8)
