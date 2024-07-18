@@ -17,6 +17,7 @@ class NumbersViewModel: ObservableObject {
     @Published var userSolution: String = ""
     @Published var usedNumbers: [Int] = []
     @Published var intermediateResults: [Int] = Array(repeating: 0, count: 4)
+    @Published var finalSolution: Int?
 
     private var game: GameModel
 
@@ -75,6 +76,7 @@ class NumbersViewModel: ObservableObject {
         intermediateResults = Array(repeating: 0, count: 4)
         firstOperand = nil
         selectedOperator = nil
+        finalSolution = nil
     }
 
     func selectNumberForOperation(number: Int) {
@@ -205,6 +207,7 @@ class NumbersViewModel: ObservableObject {
 
     func showFinalSolution() {
         guard let result = evaluateSolution() else { return }
+        finalSolution = result
         userSolution += " = \(result)"
     }
 }
