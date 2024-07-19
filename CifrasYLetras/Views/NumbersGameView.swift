@@ -98,7 +98,7 @@ struct NumbersGameView: View {
                         OperatorButton(op: "-", action: {
                             numbersViewModel.addOperatorToSolution(op: "-")
                         })
-                        OperatorButton(op: "*", action: {
+                        OperatorButton(op: "x", action: {
                             numbersViewModel.addOperatorToSolution(op: "*")
                         })
                         OperatorButton(op: "/", action: {
@@ -106,49 +106,7 @@ struct NumbersGameView: View {
                         })
                     }
                     .padding()
-
-                    Button(action: {
-                        numbersViewModel.showFinalSolution()
-                        if numbersViewModel.finalSolution == numbersViewModel.targetNumber {
-                            gameViewModel.score += 10
-                        } else if let _ = numbersViewModel.finalSolution {
-                            gameViewModel.score += 5
-                        }
-                    }) {
-                        Text("Comprobar solución")
-                            .frame(width: 200, height: 50)
-                            .background(Color.green)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
-                    }
-                    .padding()
-
-                    Button(action: numbersViewModel.resetNumbersRound) {
-                        Text("Reiniciar")
-                            .frame(width: 200, height: 50)
-                            .background(Color.red)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
-                    }
-                    .padding()
-
-                    Button(action: {
-                        gameViewModel.resetGame()
-                    }) {
-                        HStack {
-                            Image(systemName: "arrowshape.turn.up.backward.fill")
-                                .font(.title)
-                            Text("Main Menu")
-                                .fontWeight(.semibold)
-                                .font(.title)
-                        }
-                        .padding()
-                        .background(Color.yellow)
-                        .foregroundColor(.white)
-                        .cornerRadius(40)
-                        .shadow(radius: 10)
-                    }
-                    .padding(.bottom, 20)
+                    .bold()
                 }
             }
         }
@@ -169,8 +127,9 @@ struct NumberSlotView: View {
     var body: some View {
         Text("\(number)")
             .frame(width: 50, height: 50)
-            .background(isUsed ? Color.red : color)
+            .background(isUsed ? Color.red.opacity(0.8) : color)
             .foregroundColor(isUsed ? Color.white : Color.black)
+            .bold()
             .cornerRadius(8)
             .overlay(
                 RoundedRectangle(cornerRadius: 8)

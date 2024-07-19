@@ -21,6 +21,9 @@ class GameViewModel: ObservableObject, LettersViewModelDelegate {
     @Published var currentPhase: GamePhase = .letters
     @Published var roundsCompleted: Int = 0
     
+    @Published var roundCounter: Int = 1
+    @Published var showMainMenu: Bool = false
+
     private var game: GameModel
     private var timer: Timer?
     private var isFirstRound: Bool = true
@@ -97,6 +100,8 @@ class GameViewModel: ObservableObject, LettersViewModelDelegate {
         isFirstRound = true
         currentPhase = .letters
         roundsCompleted = 0
+        roundCounter = 1
+        showMainMenu = false
         timer?.invalidate()
         timer = nil
         startNewRound()
@@ -106,6 +111,7 @@ class GameViewModel: ObservableObject, LettersViewModelDelegate {
         stopTimer()
         if currentPhase == .letters {
             roundsCompleted += 1
+            roundCounter += 1
             lettersViewModel?.resetLettersRound()
             if roundsCompleted % 2 == 0 {
                 currentPhase = .numbers

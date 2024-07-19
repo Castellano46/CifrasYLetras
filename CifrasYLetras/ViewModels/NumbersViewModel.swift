@@ -16,7 +16,7 @@ class NumbersViewModel: ObservableObject {
     @Published var targetHundreds: Int = 0
     @Published var userSolution: String = ""
     @Published var usedNumbers: [Int] = []
-    @Published var intermediateResults: [Int] = Array(repeating: 0, count: 4)
+    @Published var intermediateResults: [Int] = Array(repeating: 0, count: 5) // Ajustado a 5
     @Published var finalSolution: Int?
 
     private var game: GameModel
@@ -73,7 +73,7 @@ class NumbersViewModel: ObservableObject {
         targetHundreds = 0
         userSolution = ""
         usedNumbers = []
-        intermediateResults = Array(repeating: 0, count: 4)
+        intermediateResults = Array(repeating: 0, count: 5) 
         firstOperand = nil
         selectedOperator = nil
         finalSolution = nil
@@ -133,6 +133,7 @@ class NumbersViewModel: ObservableObject {
                 print("¡Solución correcta!")
             }
             self.firstOperand = nil
+            self.finalSolution = result
         }
     }
 
