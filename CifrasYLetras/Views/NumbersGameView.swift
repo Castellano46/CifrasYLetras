@@ -42,7 +42,29 @@ struct NumbersGameView: View {
                     .disabled(numbersViewModel.selectedNumbers.count == 6)
 
                     HStack {
-                        ForEach(0..<6) { index in
+                        ForEach(0..<4) { index in
+                            GeometryReader { geometry in
+                                if index < numbersViewModel.selectedNumbers.count {
+                                    NumberSlotView(number: numbersViewModel.selectedNumbers[index], isUsed: numbersViewModel.usedNumbers.contains(numbersViewModel.selectedNumbers[index]))
+                                        .onTapGesture {
+                                            numbersViewModel.selectNumberForOperation(number: numbersViewModel.selectedNumbers[index])
+                                        }
+                                } else {
+                                    Rectangle()
+                                        .frame(width: geometry.size.width, height: geometry.size.height)
+                                        .foregroundColor(Color.gray.opacity(0.8))
+                                        .border(Color.pink, width: 2)
+                                        .cornerRadius(8)
+                                }
+                            }
+                            .frame(width: 50, height: 50)
+                            .padding(.horizontal, 5)
+                        }
+                    }
+                    .padding(.vertical, 2)
+
+                    HStack {
+                        ForEach(4..<6) { index in
                             GeometryReader { geometry in
                                 if index < numbersViewModel.selectedNumbers.count {
                                     NumberSlotView(number: numbersViewModel.selectedNumbers[index], isUsed: numbersViewModel.usedNumbers.contains(numbersViewModel.selectedNumbers[index]))
@@ -71,27 +93,6 @@ struct NumbersGameView: View {
                     .padding()
 
                     HStack {
-                        ForEach(0..<5) { index in
-                            NumberSlotView(number: numbersViewModel.intermediateResults.count > index ? numbersViewModel.intermediateResults[index] : 0, isUsed: numbersViewModel.usedNumbers.contains(numbersViewModel.intermediateResults.count > index ? numbersViewModel.intermediateResults[index] : 0), color: .blue)
-                                .frame(width: 70, height: 70)
-                                .padding(.horizontal, 5)
-                                .onTapGesture {
-                                    if numbersViewModel.intermediateResults.count > index {
-                                        numbersViewModel.selectNumberForOperation(number: numbersViewModel.intermediateResults[index])
-                                    }
-                                }
-                        }
-                    }
-                    .padding()
-
-                    if let finalSolution = numbersViewModel.finalSolution {
-                        Text("Solución Final: \(finalSolution)")
-                            .font(.title)
-                            .foregroundColor(finalSolution == numbersViewModel.targetNumber ? .green : .red)
-                            .padding()
-                    }
-
-                    HStack {
                         OperatorButton(op: "+", action: {
                             numbersViewModel.addOperatorToSolution(op: "+")
                         })
@@ -107,6 +108,36 @@ struct NumbersGameView: View {
                     }
                     .padding()
                     .bold()
+
+                    HStack {
+                        ForEach(0..<5) { index in
+                            NumberSlotView(number: numbersViewModel.intermediateResults.count > index ? numbersViewModel.intermediateResults[index] : 0, isUsed: numbersViewModel.usedNumbers.contains(numbersViewModel.intermediateResults.count > index ? numbersViewModel.intermediateResults[index] : 0), color: .blue)
+                                .frame(width: 50, height: 50)
+                                .padding(.horizontal, 5)
+                                .onTapGesture {
+                                    if numbersViewModel.intermediateResults.count > index {
+                                        numbersViewModel.selectNumberForOperation(number: numbersViewModel.intermediateResults[index])
+                                    }
+                                }
+                        }
+                    }
+                    .padding()
+                    
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 8)
+                            .fill(Color.beige)
+                            .frame(height: 50)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .stroke(Color.black, lineWidth: 2)
+                            )
+
+                        Text("Solución Final: \(numbersViewModel.finalSolution ?? 0)")
+                            .font(.title)
+                            .foregroundColor(numbersViewModel.finalSolution == numbersViewModel.targetNumber ? .green : .red)
+                            .padding()
+                    }
+                    .padding()
                 }
             }
         }
@@ -171,6 +202,10 @@ struct OperatorButton: View {
                 )
         }
     }
+}
+
+extension Color {
+    static let beige = Color(red: 245 / 255, green: 245 / 255, blue: 220 / 255)
 }
 
 struct NumbersGameView_Previews: PreviewProvider {
