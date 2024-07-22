@@ -32,11 +32,7 @@ struct NumbersGameView: View {
                     }
 
                     Button(action: numbersViewModel.selectNumber) {
-                        Text("Número")
-                            .frame(width: 150, height: 50)
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
+                        RealisticButton(color: .blue, iconName: "123.rectangle.fill")
                     }
                     .padding()
                     .disabled(numbersViewModel.selectedNumbers.count == 6)
@@ -122,7 +118,7 @@ struct NumbersGameView: View {
                         }
                     }
                     .padding()
-                    
+
                     ZStack {
                         RoundedRectangle(cornerRadius: 8)
                             .fill(Color.beige)
