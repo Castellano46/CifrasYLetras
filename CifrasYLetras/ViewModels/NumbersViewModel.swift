@@ -16,7 +16,7 @@ class NumbersViewModel: ObservableObject {
     @Published var targetHundreds: Int = 0
     @Published var userSolution: String = ""
     @Published var usedNumbers: [Int] = []
-    @Published var intermediateResults: [Int] = Array(repeating: 0, count: 5)
+    @Published var intermediateResults: [Int] = Array(repeating: 0, count: 5) // Ajustado a 5
     @Published var finalSolution: Int?
 
     private var game: GameModel
@@ -73,7 +73,7 @@ class NumbersViewModel: ObservableObject {
         targetHundreds = 0
         userSolution = ""
         usedNumbers = []
-        intermediateResults = Array(repeating: 0, count: 5)
+        intermediateResults = Array(repeating: 0, count: 5) // Ajustado a 5
         firstOperand = nil
         selectedOperator = nil
         finalSolution = nil
@@ -129,34 +129,52 @@ class NumbersViewModel: ObservableObject {
                 }
             }
             if result == targetNumber {
+                // Realizar acción cuando se obtiene el resultado correcto
                 print("¡Solución correcta!")
             }
             self.firstOperand = nil
-            self.finalSolution = result
+            self.finalSolution = result // Actualizamos la solución final
         }
     }
 
-    func removeLastEntryFromSolution() {
+    func undoLastOperation() {
         guard !userSolution.isEmpty else { return }
-        let components = userSolution.split(separator: " ")
-        if !components.isEmpty {
-            let lastComponent = components.last!
-            if let lastNumber = Int(lastComponent) {
-                if let index = usedNumbers.firstIndex(of: lastNumber) {
-                    usedNumbers.remove(at: index)
+
+        // Encontrar y eliminar el último resultado intermedio no vacío
+        if let lastNonZeroResultIndex = intermediateResults.lastIndex(where: { $0 != 0 }) {
+            let lastResult = intermediateResults[lastNonZeroResultIndex]
+            intermediateResults[lastNonZeroResultIndex] = 0
+
+            // Eliminar los números usados en la última operación
+            let components = userSolution.split(separator: " ")
+            if components.count >= 3 {
+                let lastNumber = components[components.count - 1]
+                let firstNumber = components[components.count - 3]
+                
+                if let lastInt = Int(lastNumber), let firstInt = Int(firstNumber) {
+                    // Eliminar los números usados de `usedNumbers`
+                    usedNumbers.removeAll { $0 == lastInt || $0 == firstInt }
+                    
+                    // Actualizar `userSolution` eliminando la última operación
+                    userSolution = components.dropLast(3).joined(separator: " ")
+
+                    // Desmarcar los números usados en `selectedNumbers`
+                    if selectedNumbers.contains(lastInt) {
+                        selectedNumbers[selectedNumbers.firstIndex(of: lastInt)!] = lastInt
+                    }
+                    if selectedNumbers.contains(firstInt) {
+                        selectedNumbers[selectedNumbers.firstIndex(of: firstInt)!] = firstInt
+                    }
                 }
             }
-            userSolution = components.dropLast().joined(separator: " ")
-            if components.count > 1, let penultimateComponent = components.dropLast().last, Int(penultimateComponent) != nil {
-                selectedOperator = nil
-                firstOperand = Int(penultimateComponent)
-            } else {
-                selectedOperator = nil
-                firstOperand = nil
+
+            // Verificar si `lastResult` es la solución final y actualizarla si es necesario
+            if finalSolution == lastResult {
+                finalSolution = nil
             }
         }
     }
-    
+
     func evaluateSolution() -> Int? {
         let components = userSolution.split(separator: " ")
         guard !components.isEmpty else { return nil }

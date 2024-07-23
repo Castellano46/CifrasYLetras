@@ -27,10 +27,6 @@ struct LettersGameView: View {
                 .edgesIgnoringSafeArea(.all)
 
             VStack {
-                Text("Letras")
-                    .font(.largeTitle)
-                    .padding(.top)
-
                 HStack {
                     Button(action: lettersViewModel.selectVowel) {
                         RealisticButton(color: .purple, iconName: "v.circle")
@@ -46,7 +42,7 @@ struct LettersGameView: View {
                     .padding(.horizontal, 20)
                     .disabled(lettersViewModel.selectedLetters.count >= 10 || gameViewModel.isPaused)
                 }
-                .frame(height: 50)
+                .frame(height: 80)
                 .padding()
 
                 VStack(spacing: 30) {

@@ -21,21 +21,24 @@ struct NumbersGameView: View {
 
             ScrollView {
                 VStack {
-                    Text("Cifras")
-                        .font(.largeTitle)
-                        .padding(.top)
-
                     if gameViewModel.timerValue > 0 {
                         Text("Tiempo: \(gameViewModel.timerValue)")
                             .font(.title)
                             .padding()
                     }
 
-                    Button(action: numbersViewModel.selectNumber) {
-                        RealisticButton(color: .blue, iconName: "123.rectangle.fill")
+                    HStack {
+                        Button(action: numbersViewModel.selectNumber) {
+                            RealisticButton(color: .blue, iconName: "123.rectangle.fill")
+                        }
+                        .padding()
+                        .disabled(numbersViewModel.selectedNumbers.count == 6)
+                        
+                        Button(action: numbersViewModel.undoLastOperation) {
+                            RealisticButton(color: .red, iconName: "arrow.uturn.backward.circle.fill")
+                        }
+                        .padding()
                     }
-                    .padding()
-                    .disabled(numbersViewModel.selectedNumbers.count == 6)
 
                     HStack {
                         ForEach(0..<4) { index in
@@ -80,7 +83,6 @@ struct NumbersGameView: View {
                         }
                     }
                     .padding()
-
                     HStack {
                         TargetNumberSlotView(number: numbersViewModel.targetHundreds)
                         TargetNumberSlotView(number: numbersViewModel.targetTens)
