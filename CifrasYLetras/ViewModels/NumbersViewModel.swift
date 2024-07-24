@@ -16,13 +16,14 @@ class NumbersViewModel: ObservableObject {
     @Published var targetHundreds: Int = 0
     @Published var userSolution: String = ""
     @Published var usedNumbers: [Int] = []
-    @Published var intermediateResults: [Int] = Array(repeating: 0, count: 5) // Ajustado a 5
+    @Published var intermediateResults: [Int] = Array(repeating: 0, count: 5)
     @Published var finalSolution: Int?
 
     private var game: GameModel
 
     private var firstOperand: Int? = nil
     private var selectedOperator: String? = nil
+    private var operations: [(firstOperand: Int, secondOperand: Int, result: Int)] = []
 
     init(game: GameModel) {
         self.game = game
@@ -64,16 +65,11 @@ class NumbersViewModel: ObservableObject {
             self.targetUnits = units
         }
     }
-    
-    func resetNumbersRound() {
-        selectedNumbers = []
-        targetNumber = 0
-        targetUnits = 0
-        targetTens = 0
-        targetHundreds = 0
+
+    func resetSolution() {
         userSolution = ""
         usedNumbers = []
-        intermediateResults = Array(repeating: 0, count: 5) // Ajustado a 5
+        intermediateResults = Array(repeating: 0, count: 5)
         firstOperand = nil
         selectedOperator = nil
         finalSolution = nil
@@ -132,46 +128,30 @@ class NumbersViewModel: ObservableObject {
                 // Realizar acción cuando se obtiene el resultado correcto
                 print("¡Solución correcta!")
             }
+            operations.append((firstOperand: firstOperand, secondOperand: secondOperand, result: result))
             self.firstOperand = nil
-            self.finalSolution = result // Actualizamos la solución final
+            self.finalSolution = result
         }
     }
 
     func undoLastOperation() {
-        guard !userSolution.isEmpty else { return }
+        guard let lastOperation = operations.popLast() else { return }
 
-        // Encontrar y eliminar el último resultado intermedio no vacío
-        if let lastNonZeroResultIndex = intermediateResults.lastIndex(where: { $0 != 0 }) {
-            let lastResult = intermediateResults[lastNonZeroResultIndex]
-            intermediateResults[lastNonZeroResultIndex] = 0
+        let (firstOperand, secondOperand, result) = lastOperation
+        
+        if let resultIndex = intermediateResults.firstIndex(of: result) {
+            intermediateResults[resultIndex] = 0
+        }
 
-            // Eliminar los números usados en la última operación
-            let components = userSolution.split(separator: " ")
-            if components.count >= 3 {
-                let lastNumber = components[components.count - 1]
-                let firstNumber = components[components.count - 3]
-                
-                if let lastInt = Int(lastNumber), let firstInt = Int(firstNumber) {
-                    // Eliminar los números usados de `usedNumbers`
-                    usedNumbers.removeAll { $0 == lastInt || $0 == firstInt }
-                    
-                    // Actualizar `userSolution` eliminando la última operación
-                    userSolution = components.dropLast(3).joined(separator: " ")
+        usedNumbers.removeAll { $0 == firstOperand || $0 == secondOperand || $0 == result }
 
-                    // Desmarcar los números usados en `selectedNumbers`
-                    if selectedNumbers.contains(lastInt) {
-                        selectedNumbers[selectedNumbers.firstIndex(of: lastInt)!] = lastInt
-                    }
-                    if selectedNumbers.contains(firstInt) {
-                        selectedNumbers[selectedNumbers.firstIndex(of: firstInt)!] = firstInt
-                    }
-                }
-            }
+        let components = userSolution.split(separator: " ")
+        if components.count >= 3 {
+            userSolution = components.dropLast(3).joined(separator: " ")
+        }
 
-            // Verificar si `lastResult` es la solución final y actualizarla si es necesario
-            if finalSolution == lastResult {
-                finalSolution = nil
-            }
+        if finalSolution == result {
+            finalSolution = nil
         }
     }
 
