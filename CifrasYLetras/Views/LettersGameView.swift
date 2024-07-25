@@ -28,23 +28,58 @@ struct LettersGameView: View {
 
             VStack {
                 HStack {
-                    Button(action: lettersViewModel.selectVowel) {
-                        RealisticButton(color: .purple, iconName: "v.circle")
-                            .frame(width: 100, height: 100)
-                    }
-                    .padding(.horizontal, 20)
-                    .disabled(lettersViewModel.selectedLetters.count >= 10 || gameViewModel.isPaused)
+                    VStack(alignment: .leading) {
+                        HStack {
+                            Image(systemName: "clock")
+                                .font(.title)
+                            Text("\(gameViewModel.timerValue)")
+                                .font(.title)
+                        }
+                        .padding(.bottom, 10)
 
-                    Button(action: lettersViewModel.selectConsonant) {
-                        RealisticButton(color: .cyan, iconName: "c.circle")
-                            .frame(width: 100, height: 100)
+                        HStack {
+                            Image(systemName: "star.fill")
+                                .font(.title)
+                            Text("\(gameViewModel.score)")
+                                .font(.title)
+                        }
+                        .padding(.bottom, 10)
                     }
-                    .padding(.horizontal, 20)
-                    .disabled(lettersViewModel.selectedLetters.count >= 10 || gameViewModel.isPaused)
+                    .padding(.leading)
+
+                    Spacer()
+
+                    VStack {
+                        if gameViewModel.isTimerActive {
+                            Button(action: gameViewModel.pauseTimer) {
+                                Image(systemName: "pause.fill")
+                                    .font(.title) 
+                                    .padding()
+                            }
+                        } else if gameViewModel.isPaused {
+                            Button(action: gameViewModel.resumeTimer) {
+                                Image(systemName: "play.fill")
+                                    .font(.title)
+                                    .padding()
+                            }
+                        }
+                    }
+                    .padding(.trailing)
                 }
-                .frame(height: 80)
-                .padding()
-
+                .padding(.horizontal)
+                
+                Spacer()
+                
+                Text(lettersViewModel.userWord)
+                    .font(.title)
+                    .padding()
+                    .frame(width: 300, height: 50)
+                    .fixedSize(horizontal: true, vertical: false)
+                    .background(Color.white)
+                    .cornerRadius(8)
+                    .shadow(radius: 4)
+                    .padding()
+                
                 VStack(spacing: 30) {
                     ForEach(0..<2) { row in
                         HStack(spacing: 20) {
@@ -78,47 +113,27 @@ struct LettersGameView: View {
                 .frame(height: 100)
                 .padding()
 
-                Text(lettersViewModel.userWord)
-                    .font(.title)
-                    .padding()
-                    .frame(width: 300, height: 50)
-                    .fixedSize(horizontal: true, vertical: false)
-                    .background(Color.white)
-                    .cornerRadius(8)
-                    .shadow(radius: 4)
-                    .padding()
+                Spacer()
 
-                Text("Tiempo: \(gameViewModel.timerValue) segundos")
-                    .font(.title)
-                    .padding()
+                HStack {
+                    Button(action: lettersViewModel.selectVowel) {
+                        RealisticButton(color: .purple, iconName: "v.circle")
+                            .frame(width: 100, height: 100)
+                    }
+                    .padding(.horizontal, 40)
+                    .disabled(lettersViewModel.selectedLetters.count >= 10 || gameViewModel.isPaused)
 
-                if gameViewModel.isTimerActive {
-                    HStack {
-                        Button(action: gameViewModel.pauseTimer) {
-                            Image(systemName: "pause.fill")
-                                .padding()
-                                .background(Color.orange)
-                                .foregroundColor(.white)
-                                .cornerRadius(8)
-                        }
-                        .padding()
+                    Button(action: lettersViewModel.selectConsonant) {
+                        RealisticButton(color: .cyan, iconName: "c.circle")
+                            .frame(width: 100, height: 100)
                     }
-                } else if gameViewModel.isPaused {
-                    HStack {
-                        Button(action: gameViewModel.resumeTimer) {
-                            Image(systemName: "play.fill")
-                                .padding()
-                                .background(Color.green)
-                                .foregroundColor(.white)
-                                .cornerRadius(8)
-                        }
-                        .padding()
-                    }
+                    .padding(.horizontal, 40)
+                    .disabled(lettersViewModel.selectedLetters.count >= 10 || gameViewModel.isPaused)
                 }
+                .frame(height: 80)
+                .padding()
 
-                Text("Puntuación: \(gameViewModel.score)")
-                    .font(.title)
-                    .padding()
+                Spacer(minLength: 50)
             }
             .onAppear {
                 gameViewModel.resetGame()
