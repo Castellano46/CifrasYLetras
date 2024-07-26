@@ -32,20 +32,34 @@ struct LettersGameView: View {
                         HStack {
                             Image(systemName: "clock")
                                 .font(.title)
+                                .bold()
+                                .foregroundColor(.blue)
+                                .background(Circle().fill(Color.yellow.opacity(0.9)).shadow(color: Color.black.opacity(0.2), radius: 2, x: 0, y: 2).frame(width: 50, height: 50))
                             Text("\(gameViewModel.timerValue)")
                                 .font(.title)
+                                .bold()
+                                .foregroundColor(.blue)
+                                .padding(.leading, 10)
                         }
                         .padding(.bottom, 10)
+                        .padding(.leading, 20)
 
                         HStack {
                             Image(systemName: "star.fill")
                                 .font(.title)
+                                .bold()
+                                .foregroundColor(.yellow)
+                                .background(Circle().fill(Color.green.opacity(0.9)).shadow(color: Color.black.opacity(0.2), radius: 2, x: 0, y: 2).frame(width: 50, height: 50))
                             Text("\(gameViewModel.score)")
                                 .font(.title)
+                                .bold()
+                                .foregroundColor(.yellow)
+                                .padding(.leading, 10)
                         }
                         .padding(.bottom, 10)
+                        .padding(.leading, 20)
                     }
-                    .padding(.leading)
+                    .padding(.top, 70)
 
                     Spacer()
 
@@ -53,23 +67,26 @@ struct LettersGameView: View {
                         if gameViewModel.isTimerActive {
                             Button(action: gameViewModel.pauseTimer) {
                                 Image(systemName: "pause.fill")
-                                    .font(.title) 
+                                    .font(.title)
+                                    .foregroundColor(.blue)
                                     .padding()
                             }
                         } else if gameViewModel.isPaused {
                             Button(action: gameViewModel.resumeTimer) {
                                 Image(systemName: "play.fill")
                                     .font(.title)
+                                    .foregroundColor(.green)
                                     .padding()
                             }
                         }
                     }
-                    .padding(.trailing)
+                    .padding(.top, 30)
+                    .padding(.trailing, 10)
                 }
                 .padding(.horizontal)
-                
+
                 Spacer()
-                
+
                 Text(lettersViewModel.userWord)
                     .font(.title)
                     .padding()
@@ -79,7 +96,7 @@ struct LettersGameView: View {
                     .cornerRadius(8)
                     .shadow(radius: 4)
                     .padding()
-                
+
                 VStack(spacing: 30) {
                     ForEach(0..<2) { row in
                         HStack(spacing: 20) {
