@@ -16,18 +16,18 @@ class LettersViewModel: ObservableObject {
     @Published var selectedLetters: [String] = []
     @Published var userWord: String = ""
     @Published var usedLettersIndices: [Int] = []
-
+    
     weak var delegate: LettersViewModelDelegate?
     
     private var game: GameModel
-
+    
     init(game: GameModel) {
         self.game = game
     }
-
+    
     func selectVowel() {
         guard selectedLetters.count < 10 else { return }
-
+        
         if selectedLetters.count < 10 {
             if let randomVowel = game.vowels.randomElement() {
                 selectedLetters.append(randomVowel)
@@ -35,10 +35,10 @@ class LettersViewModel: ObservableObject {
         }
         checkIfAllLettersSelected()
     }
-
+    
     func selectConsonant() {
         guard selectedLetters.count < 10 else { return }
-
+        
         if selectedLetters.count < 10 {
             if let randomConsonant = game.consonants.randomElement() {
                 selectedLetters.append(randomConsonant)
@@ -46,19 +46,19 @@ class LettersViewModel: ObservableObject {
         }
         checkIfAllLettersSelected()
     }
-
+    
     private func checkIfAllLettersSelected() {
         if selectedLetters.count == 10 {
             delegate?.allLettersSelected()
         }
     }
-
+    
     func resetLettersRound() {
         selectedLetters = []
         userWord = ""
         usedLettersIndices = []
     }
-
+    
     func toggleLetterUsage(at index: Int) {
         let letter = selectedLetters[index]
         if usedLettersIndices.contains(index) {
@@ -71,7 +71,7 @@ class LettersViewModel: ObservableObject {
             userWord.append(letter)
         }
     }
-
+    
     func calculateScore() -> Int {
         let isValid = isValidWord(word: userWord)
         if isValid {
@@ -79,7 +79,7 @@ class LettersViewModel: ObservableObject {
         }
         return 0
     }
-
+    
     private func isValidWord(word: String) -> Bool {
         var lettersCopy = selectedLetters
         for char in word {

@@ -18,17 +18,17 @@ class NumbersViewModel: ObservableObject {
     @Published var usedNumbers: [Int] = []
     @Published var intermediateResults: [Int] = Array(repeating: 0, count: 5)
     @Published var finalSolution: Int?
-
+    
     private var game: GameModel
-
+    
     private var firstOperand: Int? = nil
     private var selectedOperator: String? = nil
     private var operations: [(firstOperand: Int, secondOperand: Int, result: Int)] = []
-
+    
     init(game: GameModel) {
         self.game = game
     }
-
+    
     func selectNumber() {
         if selectedNumbers.count < 6 {
             let allNumbers = Array(1...10) + [25, 50, 75, 100]
@@ -65,7 +65,7 @@ class NumbersViewModel: ObservableObject {
             self.targetUnits = units
         }
     }
-
+    
     func resetSolution() {
         userSolution = ""
         usedNumbers = []
@@ -74,7 +74,7 @@ class NumbersViewModel: ObservableObject {
         selectedOperator = nil
         finalSolution = nil
     }
-
+    
     func selectNumberForOperation(number: Int) {
         if usedNumbers.contains(number) { return }
         
@@ -89,21 +89,21 @@ class NumbersViewModel: ObservableObject {
             selectedOperator = nil
         }
     }
-
+    
     func addOperatorToSolution(op: String) {
         if firstOperand != nil && selectedOperator == nil {
             selectedOperator = op
             userSolution += " \(op)"
         }
     }
-
+    
     func performOperation() {
         guard let firstOperand = firstOperand,
               let selectedOperator = selectedOperator,
               let secondOperand = userSolution.split(separator: " ").last.flatMap({ Int($0) }) else { return }
         
         var result: Int?
-
+        
         switch selectedOperator {
         case "+":
             result = firstOperand + secondOperand
@@ -116,7 +116,7 @@ class NumbersViewModel: ObservableObject {
         default:
             break
         }
-
+        
         if let result = result {
             for i in 0..<intermediateResults.count {
                 if intermediateResults[i] == 0 {
@@ -133,28 +133,28 @@ class NumbersViewModel: ObservableObject {
             self.finalSolution = result
         }
     }
-
+    
     func undoLastOperation() {
         guard let lastOperation = operations.popLast() else { return }
-
+        
         let (firstOperand, secondOperand, result) = lastOperation
         
         if let resultIndex = intermediateResults.firstIndex(of: result) {
             intermediateResults[resultIndex] = 0
         }
-
+        
         usedNumbers.removeAll { $0 == firstOperand || $0 == secondOperand || $0 == result }
-
+        
         let components = userSolution.split(separator: " ")
         if components.count >= 3 {
             userSolution = components.dropLast(3).joined(separator: " ")
         }
-
+        
         if finalSolution == result {
             finalSolution = nil
         }
     }
-
+    
     func evaluateSolution() -> Int? {
         let components = userSolution.split(separator: " ")
         guard !components.isEmpty else { return nil }
@@ -187,7 +187,7 @@ class NumbersViewModel: ObservableObject {
         }
         return result
     }
-
+    
     func checkAndEvaluatePartialSolution() {
         if let result = evaluateSolution() {
             for i in 0..<intermediateResults.count {
@@ -202,7 +202,7 @@ class NumbersViewModel: ObservableObject {
             }
         }
     }
-
+    
     func showFinalSolution() {
         guard let result = evaluateSolution() else { return }
         finalSolution = result

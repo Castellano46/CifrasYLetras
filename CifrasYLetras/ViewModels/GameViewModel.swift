@@ -14,7 +14,7 @@ enum GamePhase {
 }
 
 class GameViewModel: ObservableObject, LettersViewModelDelegate {
-    @Published var timerValue: Int = 60
+    @Published var timerValue: Int = 20
     @Published var isTimerActive: Bool = false
     @Published var isPaused: Bool = false
     @Published var score: Int = 0
@@ -23,7 +23,7 @@ class GameViewModel: ObservableObject, LettersViewModelDelegate {
     
     @Published var roundCounter: Int = 1
     @Published var showMainMenu: Bool = false
-
+    
     private var game: GameModel
     private var timer: Timer?
     private var isFirstRound: Bool = true
@@ -39,18 +39,18 @@ class GameViewModel: ObservableObject, LettersViewModelDelegate {
             startTimerIfNeeded()
         }
     }
-
+    
     func startTimerIfNeeded() {
         if isFirstRound {
             isFirstRound = false
         }
         startTimer()
     }
-
+    
     func startTimer() {
         isTimerActive = true
         isPaused = false
-        timerValue = 60
+        timerValue = 20
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
             guard let self = self else { return }
@@ -63,21 +63,21 @@ class GameViewModel: ObservableObject, LettersViewModelDelegate {
             }
         }
     }
-
+    
     func stopTimer() {
         isTimerActive = false
         isPaused = false
         timer?.invalidate()
         timer = nil
     }
-
+    
     func pauseTimer() {
         isTimerActive = false
         isPaused = true
         timer?.invalidate()
         timer = nil
     }
-
+    
     func resumeTimer() {
         isTimerActive = true
         isPaused = false
@@ -92,9 +92,9 @@ class GameViewModel: ObservableObject, LettersViewModelDelegate {
             }
         }
     }
-
+    
     func resetGame() {
-        timerValue = 60
+        timerValue = 20
         isTimerActive = false
         isPaused = false
         isFirstRound = true
@@ -106,7 +106,7 @@ class GameViewModel: ObservableObject, LettersViewModelDelegate {
         timer = nil
         startNewRound()
     }
-
+    
     func advanceToNextPhase() {
         stopTimer()
         if currentPhase == .letters {
@@ -122,11 +122,11 @@ class GameViewModel: ObservableObject, LettersViewModelDelegate {
             currentPhase = .letters
         }
     }
-
+    
     func allLettersSelected() {
         startTimer()
     }
-
+    
     private func updateScore() {
         if currentPhase == .letters {
             if let lettersViewModel = lettersViewModel {

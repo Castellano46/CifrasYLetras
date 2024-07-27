@@ -20,12 +20,12 @@ struct SplashView: View {
                     VStack {
                         Spacer()
                         LottieView(animationName: "load",
-                                           loopMode: .loop,
-                                           contentMode: .scaleAspectFit)
-                            .frame(width: 450, height: 450)
+                                   loopMode: .loop,
+                                   contentMode: .scaleAspectFit)
+                        .frame(width: 450, height: 450)
                         Spacer()
                     }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
                 )
         }
     }

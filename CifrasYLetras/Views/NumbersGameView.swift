@@ -84,6 +84,22 @@ struct NumbersGameView: View {
                 
                 ScrollView {
                     VStack {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(Color.beige)
+                                .frame(height: 50)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .stroke(Color.black, lineWidth: 2)
+                                )
+                            
+                            Text("Solución: \(numbersViewModel.finalSolution ?? 0)")
+                                .font(.title)
+                                .foregroundColor(numbersViewModel.finalSolution == numbersViewModel.targetNumber ? .green : .red)
+                                .padding()
+                        }
+                        .padding()
+                        
                         HStack {
                             ForEach(0..<4) { index in
                                 GeometryReader { geometry in
@@ -136,6 +152,20 @@ struct NumbersGameView: View {
                         .padding()
                         
                         HStack {
+                            ForEach(0..<5) { index in
+                                NumberSlotView(number: numbersViewModel.intermediateResults.count > index ? numbersViewModel.intermediateResults[index] : 0, isUsed: numbersViewModel.usedNumbers.contains(numbersViewModel.intermediateResults.count > index ? numbersViewModel.intermediateResults[index] : 0), color: .blue)
+                                    .frame(width: 50, height: 50)
+                                    .padding(.horizontal, 5)
+                                    .onTapGesture {
+                                        if numbersViewModel.intermediateResults.count > index {
+                                            numbersViewModel.selectNumberForOperation(number: numbersViewModel.intermediateResults[index])
+                                        }
+                                    }
+                            }
+                        }
+                        .padding()
+                        
+                        HStack {
                             OperatorButton(op: "+", action: {
                                 numbersViewModel.addOperatorToSolution(op: "+")
                             })
@@ -151,36 +181,6 @@ struct NumbersGameView: View {
                         }
                         .padding()
                         .bold()
-                        
-                        HStack {
-                            ForEach(0..<5) { index in
-                                NumberSlotView(number: numbersViewModel.intermediateResults.count > index ? numbersViewModel.intermediateResults[index] : 0, isUsed: numbersViewModel.usedNumbers.contains(numbersViewModel.intermediateResults.count > index ? numbersViewModel.intermediateResults[index] : 0), color: .blue)
-                                    .frame(width: 50, height: 50)
-                                    .padding(.horizontal, 5)
-                                    .onTapGesture {
-                                        if numbersViewModel.intermediateResults.count > index {
-                                            numbersViewModel.selectNumberForOperation(number: numbersViewModel.intermediateResults[index])
-                                        }
-                                    }
-                            }
-                        }
-                        .padding()
-                        
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 8)
-                                .fill(Color.beige)
-                                .frame(height: 50)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 8)
-                                        .stroke(Color.black, lineWidth: 2)
-                                )
-                            
-                            Text("Solución Final: \(numbersViewModel.finalSolution ?? 0)")
-                                .font(.title)
-                                .foregroundColor(numbersViewModel.finalSolution == numbersViewModel.targetNumber ? .green : .red)
-                                .padding()
-                        }
-                        .padding()
                     }
                 }
                 

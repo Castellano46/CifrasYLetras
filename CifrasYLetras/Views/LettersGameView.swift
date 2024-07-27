@@ -10,14 +10,14 @@ import SwiftUI
 struct LettersGameView: View {
     @ObservedObject var lettersViewModel: LettersViewModel
     @ObservedObject var gameViewModel: GameViewModel
-
+    
     init(lettersViewModel: LettersViewModel, gameViewModel: GameViewModel) {
         self.lettersViewModel = lettersViewModel
         self.gameViewModel = gameViewModel
         self.lettersViewModel.delegate = gameViewModel
         self.gameViewModel.lettersViewModel = lettersViewModel
     }
-
+    
     var body: some View {
         ZStack {
             Image("letras")
@@ -25,7 +25,7 @@ struct LettersGameView: View {
                 .scaledToFill()
                 .opacity(0.5)
                 .edgesIgnoringSafeArea(.all)
-
+            
             VStack {
                 HStack {
                     VStack(alignment: .leading) {
@@ -43,7 +43,7 @@ struct LettersGameView: View {
                         }
                         .padding(.bottom, 10)
                         .padding(.leading, 20)
-
+                        
                         HStack {
                             Image(systemName: "star.fill")
                                 .font(.title)
@@ -60,9 +60,9 @@ struct LettersGameView: View {
                         .padding(.leading, 20)
                     }
                     .padding(.top, 70)
-
+                    
                     Spacer()
-
+                    
                     VStack {
                         if gameViewModel.isTimerActive {
                             Button(action: gameViewModel.pauseTimer) {
@@ -84,9 +84,9 @@ struct LettersGameView: View {
                     .padding(.trailing, 10)
                 }
                 .padding(.horizontal)
-
+                
                 Spacer()
-
+                
                 Text(lettersViewModel.userWord)
                     .font(.title)
                     .padding()
@@ -96,7 +96,7 @@ struct LettersGameView: View {
                     .cornerRadius(8)
                     .shadow(radius: 4)
                     .padding()
-
+                
                 VStack(spacing: 30) {
                     ForEach(0..<2) { row in
                         HStack(spacing: 20) {
@@ -129,9 +129,9 @@ struct LettersGameView: View {
                 }
                 .frame(height: 100)
                 .padding()
-
+                
                 Spacer()
-
+                
                 HStack {
                     Button(action: lettersViewModel.selectVowel) {
                         RealisticButton(color: .purple, iconName: "v.circle")
@@ -139,7 +139,7 @@ struct LettersGameView: View {
                     }
                     .padding(.horizontal, 40)
                     .disabled(lettersViewModel.selectedLetters.count >= 10 || gameViewModel.isPaused)
-
+                    
                     Button(action: lettersViewModel.selectConsonant) {
                         RealisticButton(color: .cyan, iconName: "c.circle")
                             .frame(width: 100, height: 100)
@@ -149,7 +149,7 @@ struct LettersGameView: View {
                 }
                 .frame(height: 80)
                 .padding()
-
+                
                 Spacer(minLength: 50)
             }
             .onAppear {
