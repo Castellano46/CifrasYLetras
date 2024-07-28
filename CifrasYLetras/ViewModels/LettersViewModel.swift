@@ -27,22 +27,16 @@ class LettersViewModel: ObservableObject {
     
     func selectVowel() {
         guard selectedLetters.count < 10 else { return }
-        
-        if selectedLetters.count < 10 {
-            if let randomVowel = game.vowels.randomElement() {
-                selectedLetters.append(randomVowel)
-            }
+        if let randomVowel = game.vowels.randomElement() {
+            selectedLetters.append(randomVowel)
         }
         checkIfAllLettersSelected()
     }
     
     func selectConsonant() {
         guard selectedLetters.count < 10 else { return }
-        
-        if selectedLetters.count < 10 {
-            if let randomConsonant = game.consonants.randomElement() {
-                selectedLetters.append(randomConsonant)
-            }
+        if let randomConsonant = game.consonants.randomElement() {
+            selectedLetters.append(randomConsonant)
         }
         checkIfAllLettersSelected()
     }
@@ -73,17 +67,13 @@ class LettersViewModel: ObservableObject {
     }
     
     func calculateScore() -> Int {
-        let isValid = isValidWord(word: userWord)
-        if isValid {
-            return userWord.count
-        }
-        return 0
+        return isValidWord(word: userWord) ? userWord.count : 0
     }
     
     private func isValidWord(word: String) -> Bool {
         var lettersCopy = selectedLetters
-        for char in word {
-            if let index = lettersCopy.firstIndex(of: String(char).uppercased()) {
+        for char in word.uppercased() {
+            if let index = lettersCopy.firstIndex(of: String(char)) {
                 lettersCopy.remove(at: index)
             } else {
                 return false

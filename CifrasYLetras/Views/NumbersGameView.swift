@@ -83,11 +83,12 @@ struct NumbersGameView: View {
                 Spacer()
                 
                 ScrollView {
-                    VStack {
+                    VStack(spacing: 1) {
                         ZStack {
                             RoundedRectangle(cornerRadius: 8)
                                 .fill(Color.beige)
-                                .frame(height: 50)
+                                .frame(width: 300)
+                                .frame(height: 35)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 8)
                                         .stroke(Color.black, lineWidth: 2)
@@ -100,7 +101,7 @@ struct NumbersGameView: View {
                         }
                         .padding()
                         
-                        HStack {
+                        HStack(spacing: 15) {
                             ForEach(0..<4) { index in
                                 GeometryReader { geometry in
                                     if index < numbersViewModel.selectedNumbers.count {
@@ -116,13 +117,13 @@ struct NumbersGameView: View {
                                             .cornerRadius(8)
                                     }
                                 }
-                                .frame(width: 50, height: 50)
+                                .frame(width: 60, height: 60)
                                 .padding(.horizontal, 5)
                             }
                         }
                         .padding(.vertical, 2)
                         
-                        HStack {
+                        HStack(spacing: 15) {
                             ForEach(4..<6) { index in
                                 GeometryReader { geometry in
                                     if index < numbersViewModel.selectedNumbers.count {
@@ -138,7 +139,7 @@ struct NumbersGameView: View {
                                             .cornerRadius(8)
                                     }
                                 }
-                                .frame(width: 50, height: 50)
+                                .frame(width: 60, height: 60)
                                 .padding(.horizontal, 5)
                             }
                         }
@@ -151,10 +152,10 @@ struct NumbersGameView: View {
                         }
                         .padding()
                         
-                        HStack {
+                        HStack(spacing: 8) {
                             ForEach(0..<5) { index in
                                 NumberSlotView(number: numbersViewModel.intermediateResults.count > index ? numbersViewModel.intermediateResults[index] : 0, isUsed: numbersViewModel.usedNumbers.contains(numbersViewModel.intermediateResults.count > index ? numbersViewModel.intermediateResults[index] : 0), color: .blue)
-                                    .frame(width: 50, height: 50)
+                                    .frame(width: 60, height: 60)
                                     .padding(.horizontal, 5)
                                     .onTapGesture {
                                         if numbersViewModel.intermediateResults.count > index {
@@ -187,7 +188,12 @@ struct NumbersGameView: View {
                 Spacer()
                 
                 HStack {
-                    Button(action: numbersViewModel.selectNumber) {
+                    Button(action: {
+                        numbersViewModel.selectNumber()
+                        if numbersViewModel.selectedNumbers.count == 6 {
+                            gameViewModel.allNumbersSelected()
+                        }
+                    }) {
                         RealisticButton(color: .blue, iconName: "123.rectangle.fill")
                             .frame(width: 100, height: 100)
                     }
@@ -202,11 +208,11 @@ struct NumbersGameView: View {
                 }
                 .padding()
                 
-                Spacer(minLength: 50)
+                Spacer(minLength: 70)
             }
         }
         .onAppear {
-            gameViewModel.startTimer()
+            gameViewModel.timerValue = 40
         }
         .onDisappear {
             gameViewModel.stopTimer()
@@ -221,7 +227,7 @@ struct NumberSlotView: View {
     
     var body: some View {
         Text("\(number)")
-            .frame(width: 50, height: 50)
+            .frame(width: 60, height: 60)
             .background(isUsed ? Color.red.opacity(0.8) : color)
             .foregroundColor(isUsed ? Color.white : Color.black)
             .bold()
@@ -274,6 +280,10 @@ extension Color {
 
 struct NumbersGameView_Previews: PreviewProvider {
     static var previews: some View {
-        NumbersGameView(numbersViewModel: NumbersViewModel(game: GameModel()), gameViewModel: GameViewModel(game: GameModel()))
+        let gameModel = GameModel()
+        let numbersViewModel = NumbersViewModel(game: gameModel)
+        let gameViewModel = GameViewModel(game: gameModel)
+        numbersViewModel.delegate = gameViewModel 
+        return NumbersGameView(numbersViewModel: numbersViewModel, gameViewModel: gameViewModel)
     }
 }

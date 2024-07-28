@@ -6,7 +6,10 @@
 //
 
 import Foundation
-import SwiftUI
+
+protocol NumbersViewModelDelegate: AnyObject {
+    func allNumbersSelected()
+}
 
 class NumbersViewModel: ObservableObject {
     @Published var selectedNumbers: [Int] = []
@@ -25,9 +28,31 @@ class NumbersViewModel: ObservableObject {
     private var selectedOperator: String? = nil
     private var operations: [(firstOperand: Int, secondOperand: Int, result: Int)] = []
     
+    weak var delegate: NumbersViewModelDelegate?
+    
     init(game: GameModel) {
         self.game = game
+        //resetNumbersRound()
     }
+    
+    func resetNumbersRound() {
+        selectedNumbers = []
+        usedNumbers = []
+        intermediateResults = []
+        targetNumber = 0
+        targetHundreds = 0
+        targetTens = 0
+        targetUnits = 0
+        finalSolution = nil
+        //
+        generateTargetNumber()
+        generateSelectedNumbers()
+    }
+    
+    private func generateSelectedNumbers() {
+        selectedNumbers = (1...6).map { _ in Int.random(in: 1...9) }
+    }
+    //
     
     func selectNumber() {
         if selectedNumbers.count < 6 {
@@ -43,6 +68,7 @@ class NumbersViewModel: ObservableObject {
         if selectedNumbers.count == 6 {
             generateTargetNumber()
             animateTargetNumber()
+            delegate?.allNumbersSelected()
         }
     }
     

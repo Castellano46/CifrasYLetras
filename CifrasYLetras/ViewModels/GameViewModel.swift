@@ -13,14 +13,13 @@ enum GamePhase {
     case numbers
 }
 
-class GameViewModel: ObservableObject, LettersViewModelDelegate {
-    @Published var timerValue: Int = 20
+class GameViewModel: ObservableObject, LettersViewModelDelegate, NumbersViewModelDelegate {
+    @Published var timerValue: Int = 40
     @Published var isTimerActive: Bool = false
     @Published var isPaused: Bool = false
     @Published var score: Int = 0
     @Published var currentPhase: GamePhase = .letters
     @Published var roundsCompleted: Int = 0
-    
     @Published var roundCounter: Int = 1
     @Published var showMainMenu: Bool = false
     
@@ -28,9 +27,14 @@ class GameViewModel: ObservableObject, LettersViewModelDelegate {
     private var timer: Timer?
     private var isFirstRound: Bool = true
     var lettersViewModel: LettersViewModel?
+    var numbersViewModel: NumbersViewModel?
     
     init(game: GameModel) {
         self.game = game
+        self.lettersViewModel = LettersViewModel(game: game)
+        self.lettersViewModel?.delegate = self
+        self.numbersViewModel = NumbersViewModel(game: game)
+        self.numbersViewModel?.delegate = self
         startNewRound()
     }
     
@@ -48,9 +52,9 @@ class GameViewModel: ObservableObject, LettersViewModelDelegate {
     }
     
     func startTimer() {
+        timerValue = 40
         isTimerActive = true
         isPaused = false
-        timerValue = 20
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
             guard let self = self else { return }
@@ -94,7 +98,7 @@ class GameViewModel: ObservableObject, LettersViewModelDelegate {
     }
     
     func resetGame() {
-        timerValue = 20
+        timerValue = 40
         isTimerActive = false
         isPaused = false
         isFirstRound = true
@@ -104,6 +108,8 @@ class GameViewModel: ObservableObject, LettersViewModelDelegate {
         showMainMenu = false
         timer?.invalidate()
         timer = nil
+        lettersViewModel?.resetLettersRound()
+        numbersViewModel?.resetNumbersRound()
         startNewRound()
     }
     
@@ -115,15 +121,21 @@ class GameViewModel: ObservableObject, LettersViewModelDelegate {
             lettersViewModel?.resetLettersRound()
             if roundsCompleted % 2 == 0 {
                 currentPhase = .numbers
+                numbersViewModel?.resetNumbersRound()
             } else {
                 currentPhase = .letters
             }
         } else {
             currentPhase = .letters
+            numbersViewModel?.resetNumbersRound()
         }
     }
     
     func allLettersSelected() {
+        startTimer()
+    }
+    
+    func allNumbersSelected() {
         startTimer()
     }
     
@@ -133,5 +145,6 @@ class GameViewModel: ObservableObject, LettersViewModelDelegate {
                 score += lettersViewModel.calculateScore()
             }
         }
+        // Agrega la lógica para actualizar la puntuación en la fase de números si es necesario.
     }
 }
