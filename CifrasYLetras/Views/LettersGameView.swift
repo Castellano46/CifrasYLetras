@@ -92,7 +92,7 @@ struct LettersGameView: View {
                     .padding()
                     .frame(width: 300, height: 50)
                     .fixedSize(horizontal: true, vertical: false)
-                    .background(Color.white)
+                    .background(Color.beige)
                     .cornerRadius(8)
                     .shadow(radius: 4)
                     .padding()

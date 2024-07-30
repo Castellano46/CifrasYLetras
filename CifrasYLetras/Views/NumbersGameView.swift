@@ -274,16 +274,16 @@ struct OperatorButton: View {
     }
 }
 
-extension Color {
-    static let beige = Color(red: 245 / 255, green: 245 / 255, blue: 220 / 255)
-}
+//extension Color {
+//  static let beige = Color(red: 245 / 255, green: 245 / 255, blue: 220 / 255)
+//}
 
 struct NumbersGameView_Previews: PreviewProvider {
     static var previews: some View {
         let gameModel = GameModel()
         let numbersViewModel = NumbersViewModel(game: gameModel)
         let gameViewModel = GameViewModel(game: gameModel)
-        numbersViewModel.delegate = gameViewModel 
+        numbersViewModel.delegate = gameViewModel // Asignar el delegado
         return NumbersGameView(numbersViewModel: numbersViewModel, gameViewModel: gameViewModel)
     }
 }
