@@ -11,6 +11,8 @@ import SwiftUI
 enum GamePhase {
     case letters
     case numbers
+    case paused
+    case mainMenu
 }
 
 class GameViewModel: ObservableObject, LettersViewModelDelegate, NumbersViewModelDelegate {
@@ -80,11 +82,13 @@ class GameViewModel: ObservableObject, LettersViewModelDelegate, NumbersViewMode
         isPaused = true
         timer?.invalidate()
         timer = nil
+        currentPhase = .paused
     }
     
     func resumeTimer() {
         isTimerActive = true
         isPaused = false
+        currentPhase = .letters
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
             guard let self = self else { return }
             if self.timerValue > 0 {

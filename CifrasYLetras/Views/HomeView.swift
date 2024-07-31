@@ -61,6 +61,10 @@ struct GameView: View {
                 LettersGameView(lettersViewModel: lettersViewModel, gameViewModel: viewModel)
             case .numbers:
                 NumbersGameView(numbersViewModel: numbersViewModel, gameViewModel: viewModel)
+            case .paused:
+                PauseView(gameViewModel: viewModel)
+            case .mainMenu:
+                HomeView(viewModel: viewModel, lettersViewModel: lettersViewModel, numbersViewModel: numbersViewModel)
             }
         }
     }

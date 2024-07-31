@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct PauseView: View {
+    @ObservedObject var gameViewModel: GameViewModel
+    
     var body: some View {
         ZStack {
-            Image("pause")
+            Image("fondo")
                 .resizable()
                 .scaledToFill()
                 .edgesIgnoringSafeArea(.all)
@@ -27,7 +29,7 @@ struct PauseView: View {
                 
                 VStack(spacing: 30) {
                     Button(action: {
-                        print("Resume button tapped!")
+                        gameViewModel.resumeTimer()
                     }) {
                         HStack {
                             Image(systemName: "play.fill")
@@ -41,7 +43,7 @@ struct PauseView: View {
                     .padding(.horizontal, 40)
                     
                     Button(action: {
-                        print("Replay tapped!")
+                        gameViewModel.resetGame()
                     }) {
                         HStack {
                             Image(systemName: "arrow.counterclockwise.circle.fill")
@@ -55,7 +57,7 @@ struct PauseView: View {
                     .padding(.horizontal, 40)
                     
                     Button(action: {
-                        print("Exit tapped!")
+                        gameViewModel.showMainMenu = true
                     }) {
                         HStack {
                             Image(systemName: "xmark.circle.fill")
@@ -94,6 +96,6 @@ struct StandardButtonStyle: ButtonStyle {
 
 struct PauseView_Previews: PreviewProvider {
     static var previews: some View {
-        PauseView()
+        PauseView(gameViewModel: GameViewModel(game: GameModel()))
     }
 }
