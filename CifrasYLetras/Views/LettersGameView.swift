@@ -20,10 +20,10 @@ struct LettersGameView: View {
     
     var body: some View {
         ZStack {
-            if gameViewModel.currentPhase == .paused {
-                PauseView(gameViewModel: gameViewModel)
-            } else if gameViewModel.showMainMenu {
+            if gameViewModel.showMainMenu {
                 HomeView(viewModel: gameViewModel, lettersViewModel: lettersViewModel, numbersViewModel: gameViewModel.numbersViewModel!)
+            } else if gameViewModel.currentPhase == .paused {
+                PauseView(pauseViewModel: PauseViewModel(gameViewModel: gameViewModel))
             } else {
                 Image("letras")
                     .resizable()
@@ -76,15 +76,6 @@ struct LettersGameView: View {
                                     Image(systemName: "pause.fill")
                                         .font(.title)
                                         .foregroundColor(.blue)
-                                        .padding()
-                                }
-                            } else if gameViewModel.isPaused {
-                                Button(action: {
-                                    gameViewModel.resumeTimer()
-                                }) {
-                                    Image(systemName: "play.fill")
-                                        .font(.title)
-                                        .foregroundColor(.green)
                                         .padding()
                                 }
                             }
@@ -162,7 +153,7 @@ struct LettersGameView: View {
                     Spacer(minLength: 50)
                 }
                 .onAppear {
-                    gameViewModel.resetGame()
+                    gameViewModel.startNewRound()
                 }
             }
         }

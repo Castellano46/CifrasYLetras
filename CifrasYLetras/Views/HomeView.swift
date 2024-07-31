@@ -27,9 +27,12 @@ struct HomeView: View {
                     .edgesIgnoringSafeArea(.all)
                 
                 VStack(spacing: 20) {
-                    NavigationLink(destination: GameView(viewModel: viewModel, lettersViewModel: lettersViewModel, numbersViewModel: numbersViewModel)) {
-                        RealisticButton(color: .green, iconName: "play.circle.fill")
-                    }
+                    NavigationLink(destination: GameView(viewModel: viewModel, lettersViewModel: lettersViewModel, numbersViewModel: numbersViewModel)
+                        .onAppear {
+                            viewModel.resetGame()
+                        }) {
+                            RealisticButton(color: .green, iconName: "play.circle.fill")
+                        }
                     
                     NavigationLink(destination: HowToPlayView()) {
                         RealisticButton(color: .teal, iconName: "book.circle.fill")
@@ -44,29 +47,8 @@ struct HomeView: View {
                 .padding()
                 .opacity(1)
             }
-            .navigationViewStyle(StackNavigationViewStyle())
         }
-    }
-}
-
-struct GameView: View {
-    @ObservedObject var viewModel: GameViewModel
-    @ObservedObject var lettersViewModel: LettersViewModel
-    @ObservedObject var numbersViewModel: NumbersViewModel
-    
-    var body: some View {
-        Group {
-            switch viewModel.currentPhase {
-            case .letters:
-                LettersGameView(lettersViewModel: lettersViewModel, gameViewModel: viewModel)
-            case .numbers:
-                NumbersGameView(numbersViewModel: numbersViewModel, gameViewModel: viewModel)
-            case .paused:
-                PauseView(gameViewModel: viewModel)
-            case .mainMenu:
-                HomeView(viewModel: viewModel, lettersViewModel: lettersViewModel, numbersViewModel: numbersViewModel)
-            }
-        }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

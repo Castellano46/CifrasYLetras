@@ -59,15 +59,18 @@ class GameViewModel: ObservableObject, LettersViewModelDelegate, NumbersViewMode
         isPaused = false
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
-            guard let self = self else { return }
-            if self.timerValue > 0 {
-                self.timerValue -= 1
-            } else {
-                self.stopTimer()
-                self.updateScore()
-                self.advanceToNextPhase()
-            }
+            self?.timerTick()
         }
+    }
+    
+    private func timerTick() {
+        guard timerValue > 0 else {
+            stopTimer()
+            updateScore()
+            advanceToNextPhase()
+            return
+        }
+        timerValue -= 1
     }
     
     func stopTimer() {
@@ -89,16 +92,7 @@ class GameViewModel: ObservableObject, LettersViewModelDelegate, NumbersViewMode
         isTimerActive = true
         isPaused = false
         currentPhase = .letters
-        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
-            guard let self = self else { return }
-            if self.timerValue > 0 {
-                self.timerValue -= 1
-            } else {
-                self.stopTimer()
-                self.updateScore()
-                self.advanceToNextPhase()
-            }
-        }
+        startTimer()
     }
     
     func resetGame() {
@@ -123,11 +117,9 @@ class GameViewModel: ObservableObject, LettersViewModelDelegate, NumbersViewMode
             roundsCompleted += 1
             roundCounter += 1
             lettersViewModel?.resetLettersRound()
-            if roundsCompleted % 2 == 0 {
-                currentPhase = .numbers
+            currentPhase = (roundsCompleted % 2 == 0) ? .numbers : .letters
+            if currentPhase == .numbers {
                 numbersViewModel?.resetNumbersRound()
-            } else {
-                currentPhase = .letters
             }
         } else {
             currentPhase = .letters
@@ -145,10 +137,7 @@ class GameViewModel: ObservableObject, LettersViewModelDelegate, NumbersViewMode
     
     private func updateScore() {
         if currentPhase == .letters {
-            if let lettersViewModel = lettersViewModel {
-                score += lettersViewModel.calculateScore()
-            }
+            score += lettersViewModel?.calculateScore() ?? 0
         }
-        // Agrega la lógica para actualizar la puntuación en la fase de números si es necesario.
     }
 }

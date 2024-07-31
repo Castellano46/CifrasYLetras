@@ -32,19 +32,17 @@ class NumbersViewModel: ObservableObject {
     
     init(game: GameModel) {
         self.game = game
-        //resetNumbersRound()
     }
     
     func resetNumbersRound() {
         selectedNumbers = []
         usedNumbers = []
-        intermediateResults = []
+        intermediateResults = Array(repeating: 0, count: 5)
         targetNumber = 0
         targetHundreds = 0
         targetTens = 0
         targetUnits = 0
         finalSolution = nil
-        //
         generateTargetNumber()
         generateSelectedNumbers()
     }
@@ -52,19 +50,18 @@ class NumbersViewModel: ObservableObject {
     private func generateSelectedNumbers() {
         selectedNumbers = (1...6).map { _ in Int.random(in: 1...9) }
     }
-    //
     
     func selectNumber() {
-        if selectedNumbers.count < 6 {
-            let allNumbers = Array(1...10) + [25, 50, 75, 100]
-            var number: Int
-            
-            repeat {
-                number = allNumbers.randomElement()!
-            } while selectedNumbers.contains(number) || (number > 10 && selectedNumbers.filter { $0 > 10 }.count >= 2)
-            
-            selectedNumbers.append(number)
-        }
+        guard selectedNumbers.count < 6 else { return }
+        let allNumbers = Array(1...10) + [25, 50, 75, 100]
+        var number: Int
+        
+        repeat {
+            number = allNumbers.randomElement()!
+        } while selectedNumbers.contains(number) || (number > 10 && selectedNumbers.filter { $0 > 10 }.count >= 2)
+        
+        selectedNumbers.append(number)
+        
         if selectedNumbers.count == 6 {
             generateTargetNumber()
             animateTargetNumber()
@@ -72,11 +69,11 @@ class NumbersViewModel: ObservableObject {
         }
     }
     
-    func generateTargetNumber() {
+    private func generateTargetNumber() {
         targetNumber = Int.random(in: 100...999)
     }
     
-    func animateTargetNumber() {
+    private func animateTargetNumber() {
         let hundreds = targetNumber / 100
         let tens = (targetNumber % 100) / 10
         let units = targetNumber % 10
@@ -102,7 +99,7 @@ class NumbersViewModel: ObservableObject {
     }
     
     func selectNumberForOperation(number: Int) {
-        if usedNumbers.contains(number) { return }
+        guard !usedNumbers.contains(number) else { return }
         
         if firstOperand == nil {
             firstOperand = number
@@ -123,7 +120,7 @@ class NumbersViewModel: ObservableObject {
         }
     }
     
-    func performOperation() {
+    private func performOperation() {
         guard let firstOperand = firstOperand,
               let selectedOperator = selectedOperator,
               let secondOperand = userSolution.split(separator: " ").last.flatMap({ Int($0) }) else { return }
@@ -144,14 +141,10 @@ class NumbersViewModel: ObservableObject {
         }
         
         if let result = result {
-            for i in 0..<intermediateResults.count {
-                if intermediateResults[i] == 0 {
-                    intermediateResults[i] = result
-                    break
-                }
+            if let index = intermediateResults.firstIndex(of: 0) {
+                intermediateResults[index] = result
             }
             if result == targetNumber {
-                // Realizar acción cuando se obtiene el resultado correcto
                 print("¡Solución correcta!")
             }
             operations.append((firstOperand: firstOperand, secondOperand: secondOperand, result: result))
@@ -181,7 +174,7 @@ class NumbersViewModel: ObservableObject {
         }
     }
     
-    func evaluateSolution() -> Int? {
+    private func evaluateSolution() -> Int? {
         let components = userSolution.split(separator: " ")
         guard !components.isEmpty else { return nil }
         
@@ -216,14 +209,10 @@ class NumbersViewModel: ObservableObject {
     
     func checkAndEvaluatePartialSolution() {
         if let result = evaluateSolution() {
-            for i in 0..<intermediateResults.count {
-                if intermediateResults[i] == 0 {
-                    intermediateResults[i] = result
-                    break
-                }
+            if let index = intermediateResults.firstIndex(of: 0) {
+                intermediateResults[index] = result
             }
             if result == targetNumber {
-                // Realizar acción cuando se obtiene el resultado correcto
                 print("¡Solución correcta!")
             }
         }

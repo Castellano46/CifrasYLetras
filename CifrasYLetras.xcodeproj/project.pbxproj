@@ -13,6 +13,9 @@
 		EB7C66032C577FAB00458115 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7C66022C577FAB00458115 /* ColorExtension.swift */; };
 		EB7E13CF2C2D5285000993DD /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = EB7E13CE2C2D5285000993DD /* Lottie */; };
 		EB7F0D9A2C316B48007BCF2C /* HowToPlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7F0D992C316B48007BCF2C /* HowToPlayView.swift */; };
+		EB7F5B672C5A81770067ADFC /* ColorPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7F5B662C5A81770067ADFC /* ColorPreview.swift */; };
+		EB7F5B692C5A81950067ADFC /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7F5B682C5A81950067ADFC /* GameView.swift */; };
+		EB7F5B6B2C5A82140067ADFC /* PauseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB7F5B6A2C5A82140067ADFC /* PauseViewModel.swift */; };
 		EB83790D2C2ACC6300727CC1 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB83790C2C2ACC6300727CC1 /* SplashView.swift */; };
 		EB8A0B6A2C3BD12700FC0513 /* LettersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8A0B692C3BD12700FC0513 /* LettersViewModel.swift */; };
 		EB8A0B6C2C3BD13700FC0513 /* NumbersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8A0B6B2C3BD13700FC0513 /* NumbersViewModel.swift */; };
@@ -55,6 +58,9 @@
 		EB65561C2C2EA1980065FCF7 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		EB7C66022C577FAB00458115 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		EB7F0D992C316B48007BCF2C /* HowToPlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToPlayView.swift; sourceTree = "<group>"; };
+		EB7F5B662C5A81770067ADFC /* ColorPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPreview.swift; sourceTree = "<group>"; };
+		EB7F5B682C5A81950067ADFC /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
+		EB7F5B6A2C5A82140067ADFC /* PauseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PauseViewModel.swift; sourceTree = "<group>"; };
 		EB83790C2C2ACC6300727CC1 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		EB8A0B692C3BD12700FC0513 /* LettersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LettersViewModel.swift; sourceTree = "<group>"; };
 		EB8A0B6B2C3BD13700FC0513 /* NumbersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumbersViewModel.swift; sourceTree = "<group>"; };
@@ -211,6 +217,7 @@
 				EB93B8AA2C2091A00004478F /* GameViewModel.swift */,
 				EB8A0B692C3BD12700FC0513 /* LettersViewModel.swift */,
 				EB8A0B6B2C3BD13700FC0513 /* NumbersViewModel.swift */,
+				EB7F5B6A2C5A82140067ADFC /* PauseViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -226,6 +233,8 @@
 				EB93B8AF2C2093310004478F /* NumbersGameView.swift */,
 				EB2153722C3D2869006BAE29 /* PauseView.swift */,
 				EB8C6D842C3E6F890050F89B /* UIViewRepresentable.swift */,
+				EB7F5B662C5A81770067ADFC /* ColorPreview.swift */,
+				EB7F5B682C5A81950067ADFC /* GameView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -373,6 +382,7 @@
 				EB93B8AE2C2092B00004478F /* LettersGameView.swift in Sources */,
 				EB2153732C3D2869006BAE29 /* PauseView.swift in Sources */,
 				EB4BBD7C2C4113B0008B064A /* RealisticButton.swift in Sources */,
+				EB7F5B692C5A81950067ADFC /* GameView.swift in Sources */,
 				EB7F0D9A2C316B48007BCF2C /* HowToPlayView.swift in Sources */,
 				EB93B87D2C208F110004478F /* CifrasYLetrasApp.swift in Sources */,
 				EB93B8A82C20914C0004478F /* GameModel.swift in Sources */,
@@ -382,7 +392,9 @@
 				EB65561D2C2EA1980065FCF7 /* HomeView.swift in Sources */,
 				EB93B8B02C2093310004478F /* NumbersGameView.swift in Sources */,
 				EB83790D2C2ACC6300727CC1 /* SplashView.swift in Sources */,
+				EB7F5B672C5A81770067ADFC /* ColorPreview.swift in Sources */,
 				EB8C6D852C3E6F890050F89B /* UIViewRepresentable.swift in Sources */,
+				EB7F5B6B2C5A82140067ADFC /* PauseViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
